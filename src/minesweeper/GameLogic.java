@@ -123,7 +123,7 @@ public class GameLogic {
     }
 
     private void won(){
-        System.out.println("\n\nJEE all Bombs found");
+        System.out.println("\n\nYay! All Bombs found");
         playingRound = false;
         board.printShownBoard();
     }
@@ -141,7 +141,7 @@ public class GameLogic {
         int ready = -1;
         while (ready != 1 && ready != 0) {
             board.printBoard();
-            System.out.println("All marks used are u ready to check?\n 0 = no, 1 = yes");
+            System.out.println("All marks used are you ready to check?\n 0 = no, 1 = yes");
             try {
                 ready = Integer.parseInt(reader.nextLine());
             } catch (NumberFormatException e) {

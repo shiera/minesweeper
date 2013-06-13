@@ -59,7 +59,7 @@ public class Board {
      */
     public void setStatusXY(int x, int y, BoardStatus status){
         if (cordOnBoard(x, y)){
-            if (boardStatus[y][x] != MARKED && status == MARKED){
+            if (boardStatus[y][x] == COVERED && status == MARKED){
                 markedSpaces++;
                 boardStatus[y][x] = status;
             }
@@ -70,8 +70,11 @@ public class Board {
             else if (status == UNCOVERED && boardStatus[y][x] != UNCOVERED){
                 exoandIf0(x, y);
             }
+            else if (status == COVERED){
+                boardStatus[y][x] = COVERED;
+            }
             else{
-                boardStatus[y][x] = status;
+                System.out.println("Can't do that");
             }
         }
         else{

@@ -10,7 +10,7 @@ import static minesweeper.BoardStatus.*;
 public class Main {
 
     public static void main(String[] args) {
-        GameLogic game = new GameLogic(5, 1);
+        GameLogic game = new GameLogic(5, 5);
         game.play();
 
     }
