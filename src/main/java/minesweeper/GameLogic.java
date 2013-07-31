@@ -26,7 +26,7 @@ public class GameLogic {
     }
 
     public int[][] getBoard() {
-        return board.getBoard();
+        return board.getBoardData();
     }
 
     public BoardStatus[][] getBoardStatus(){
@@ -35,8 +35,10 @@ public class GameLogic {
 
     public void play(){
         System.out.println("\n\nwelcome to minesweeper\n\n");
+        boolean firstRound = true;
         while (running){
-            playRound();
+            playRound(firstRound);
+            firstRound = false;
             int answ = -1;
             while (answ != 0 && answ != 1){
                 System.out.println("\n\nAgain? 0 = no, 1= yes\n\n");
@@ -55,9 +57,10 @@ public class GameLogic {
         }
     }
 
-    private void playRound(){
+    private void playRound(boolean firstRound){
+
         playingRound = true;
-        board.configBoard();
+        if (!firstRound)  board.setupBoard();
         while (playingRound){
             board.printBoard();
             // TODO game crashes if the input is something else than a number
@@ -111,7 +114,7 @@ public class GameLogic {
 
     private void uncover(int x, int y){
         board.setStatusXY(x, y, UNCOVERED );
-        if (board.getBoard()[y][x] == BOMB){
+        if (board.getBoardData()[y][x] == BOMB){
             lost();
         }
     }
@@ -129,10 +132,10 @@ public class GameLogic {
     }
 
     private void mark(int x, int y){
-        if (board.getMarkedSpaces() >= bombAmount)System.out.println("no marks left unmark something");
+        if (board.getMarkedSpacesCount() >= bombAmount)System.out.println("no marks left unmark something");
         else board.setStatusXY(x, y, MARKED);
 
-        if (board.getMarkedSpaces() >= bombAmount){
+        if (board.getMarkedSpacesCount() >= bombAmount){
              checkIfReady();
         }
     }
