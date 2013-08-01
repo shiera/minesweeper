@@ -7,7 +7,10 @@ import static minesweeper.BoardStatus.*;
 /**
  * @author shiera
  */
+
+// TODO Javadoc and tests
 public class GameLogic {
+
     private final int BOMB = Board.BOMB;
     private Board board;
     private int size;
@@ -32,6 +35,7 @@ public class GameLogic {
     public BoardStatus[][] getBoardStatus(){
         return board.getBoardStatus();
     }
+
 
     public void play(){
         System.out.println("\n\nwelcome to minesweeper\n\n");
