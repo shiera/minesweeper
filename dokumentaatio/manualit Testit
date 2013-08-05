@@ -1,0 +1,28 @@
+
+Boardin ja gamelogicin kaikki ennen kurssia valmiit metodit ajettu monta kertaa yksitellen ja
+yhdessä läpi, ei havaittu virheitä
+
+esim metodeja joiden testien tekemiseen vaatisi ylimääräisiä metodeja tai pommien randomin kopeloimista
+
+placeNumbers()
+    * käsin tehty lauta jossa pommit tietyssä paikkaa, numerot oikeilla kohdilla
+    * laitettu pommit placeBombs() metodilla, pommien määrät oikein, numerot
+    tääsmää pommine kanssa
+
+
+
+printShownBoard()
+    * metodi joka printtaa laudan niin että covered ja marked kohdissan ei näy numeroirta/pommeja
+    * ajettu annetulla laudalla läpi
+    * pelattu peliä läpi mmonta kertaa
+
+
+
+printBoardTest()
+    * näyttää kaikki numerot ja pommit
+    * ajettu pommientarkastamisen ja numerontarkastamisen yhteydessä ei virheitä löytynyt
+    * peliä pelattaessa käytetty, ei virheitä löytynyt
+
+
+GameLogic:
+    * hoitaa tämänhetkisen pein pyörittämisen, peliä testattu, eikä virheitä löytynyt

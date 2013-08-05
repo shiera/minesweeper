@@ -8,7 +8,7 @@ import static minesweeper.BoardStatus.*;
  * @author shiera
  */
 
-// TODO Javadoc and tests
+
 public class GameLogic {
 
     private final int BOMB = Board.BOMB;
@@ -28,15 +28,10 @@ public class GameLogic {
         playingRound = false;
     }
 
-    public int[][] getBoard() {
-        return board.getBoardData();
-    }
 
-    public BoardStatus[][] getBoardStatus(){
-        return board.getBoardStatus();
-    }
-
-
+    /**
+     * starts th game
+     */
     public void play(){
         System.out.println("\n\nwelcome to minesweeper\n\n");
         boolean firstRound = true;
@@ -61,6 +56,10 @@ public class GameLogic {
         }
     }
 
+    /**
+     *         runs 1 round of the text-game
+     * @parama firstRound should be true if it is the first round after creating a new board
+     */
     private void playRound(boolean firstRound){
 
         playingRound = true;
@@ -116,6 +115,11 @@ public class GameLogic {
         }
     }
 
+    /**
+     * talks whit the board. sets status of given cordinates to uncovered and ends the game if there is a bomb
+     * @param x
+     * @param y
+     */
     private void uncover(int x, int y){
         board.setStatusXY(x, y, UNCOVERED );
         if (board.getBoardData()[y][x] == BOMB){
@@ -123,27 +127,23 @@ public class GameLogic {
         }
     }
 
-    private void lost(){
-        System.out.println("\n\nARRGGH a BOMB\n\n");
-        playingRound = false;
-        board.printShownBoard();
-    }
-
-    private void won(){
-        System.out.println("\n\nYay! All Bombs found");
-        playingRound = false;
-        board.printShownBoard();
-    }
-
+    /**
+     * marks the given cordinate if all marcs (flags) are not used
+     * @param x
+     * @param y
+     */
     private void mark(int x, int y){
-        if (board.getMarkedSpacesCount() >= bombAmount)System.out.println("no marks left unmark something");
+        if (board.getMarkedSpacesCount() >= bombAmount){
+            System.out.println("no marks left unmark something");
+            checkIfReady();
+        }
         else board.setStatusXY(x, y, MARKED);
 
-        if (board.getMarkedSpacesCount() >= bombAmount){
-             checkIfReady();
-        }
     }
 
+    /**
+     * checks if player is ready to check board
+     */
     private void checkIfReady(){
         int ready = -1;
         while (ready != 1 && ready != 0) {
@@ -168,7 +168,22 @@ public class GameLogic {
     }
 
 
-    public void changeBoard(int size, int bombAmount){
-        board = new Board(size, bombAmount);
+
+    private void lost(){
+        System.out.println("\n\nARRGGH a BOMB\n\n");
+        playingRound = false;
+        board.printShownBoard();
     }
+
+
+    private void won(){
+        System.out.println("\n\nYay! All Bombs found");
+        playingRound = false;
+        board.printShownBoard();
+    }
+
+
 }
+
+
+

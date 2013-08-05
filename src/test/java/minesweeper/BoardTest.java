@@ -39,7 +39,7 @@ public class BoardTest {
 
     /*
      *   test test all these private methods
-     *   placeBombs, placeNumbers, coverBoard
+     *   placeBombs,  coverBoard
      *   (clearBoard not tested because alredy tested)
      */
     @Test
@@ -53,26 +53,17 @@ public class BoardTest {
         // board should now have bombs, numbers and be covered
         assertTrue("The board should have bombs, none found, check placeBombs()", atLeastOneBomb(board));
         assertEquals("wrong amount of bombs placed, check placeBombs()",board.getBombAmount(), amountOfbombsFound(board));
-        // TODO test numbers
         assertTrue("board should be covered after setup, check coverBoard()", isBoardCovered(board));
     }
 
     //TODO
     public void setStatusXYTest(){
-
+       // etukäteen tehty ja manuaalisesti testattu metodi... pitäisikö tehdä junit testi
     }
 
-    //TODO
-    public void printShownBoardTest(){
 
-    }
 
-    //TODO
-    public void printBoardTest(){
 
-    }
-
-    //(TODO checkBoard() test??)
 
     private int amountOfbombsFound(Board board){
         int bombsFound = 0;

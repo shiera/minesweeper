@@ -1,0 +1,16 @@
+Board
+ * sisältää kaksi kaksiuloitteista taulukkoa.
+ * int[][] boardData, joka pitää tietoa siitä onko kordinaateis pommi tai miten monta pommia viereisissä ruduissa on
+ * BoardStatus[][] boardStatus, joka pitää tietoa siitä onko kyseinen ruutu tällä hetkellä piilossa, merkattu vai näkyvillä
+ * Board myös hoitaa laudan pommien randomisointi, numeroiden asettelemisen ja pitää kirjaa käytettyjen lippujen määrästä
+ * Tarkistaa myös onko lauta oikein merkattu
+
+BoardStatus
+ * enumi joka sisältää boardStatuksessa käytetyt ruutujen tilavaihtoehdot
+
+ GameLogic
+ * hoitaa tämenhetkisen pelin pyörittämisen
+ * koko peli, yksi kierros
+
+ Main
+ * käynnistää GameLogicin
