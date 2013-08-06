@@ -47,7 +47,7 @@ public class BoardTest {
      *   (clearBoard not tested because alredy tested)
      */
     @Test
-    public void setupBoardTest() {
+    public void setupBoardTest1() {
         board.clearBoard();
         board.setStatusXY(0,0,UNCOVERED);
         //   before setup board should be clear and not covered everywhere
