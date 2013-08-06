@@ -80,12 +80,15 @@ public class Board {
                 markedSpacesCount--;
                 boardStatus[y][x] = status;
             }
-            else if (status == UNCOVERED && boardStatus[y][x] != UNCOVERED){
+            else if (status == UNCOVERED && boardStatus[y][x] == COVERED){
                 expandIf0(x, y);
             }
-            else if (status == COVERED){
-                boardStatus[y][x] = COVERED;
+            else if (status == UNCOVERED && boardStatus[y][x] == MARKED){
+                System.out.println("are you sure? unmark (cover) before uncovering");
             }
+            /*else if (status == COVERED){
+                boardStatus[y][x] = COVERED;
+            }  */
             else{
                 System.out.println("Can't do that");
             }
@@ -93,11 +96,26 @@ public class Board {
         else{
             System.out.println("cordinates x = " + x + ", y = " + y + " not on board");
         }
+    }
 
+    /**
+     *
+     * @param x
+     * @param y
+     * @return  status in the cordinates
+     */
+    protected BoardStatus getStatusXY(int x, int y){
+        return boardStatus[y][x];
+    }
 
-
-
-
+    /**
+     *
+     * @param x
+     * @param y
+     * @return  data (number) in the cordinates  -1 = bomb
+     */
+    protected int getDataXY(int x, int y){
+        return boardData[y][x];
     }
 
     /**
@@ -123,11 +141,24 @@ public class Board {
     }
 
     /**
-     * setups a board... Places bombs and number
+     * setups a board... Places random bombs and number
      */
     public void setupBoard(){
         clearBoard();
         placeBombs();
+        placeNumbers();
+        coverBoard();
+    }
+
+    // käytetty testaamiseen
+    /**
+     * setups a board... bombs are the given bombs, bombs should be marked whit -1 in int[][] bombs
+     */
+    protected void setupBoard(int[][] bombs, int bombAmount){
+        clearBoard();
+        // TODO testaa että int[][] bombs on sallittu
+        this.bombAmount = bombAmount;
+        boardData = bombs;
         placeNumbers();
         coverBoard();
     }
@@ -240,7 +271,7 @@ public class Board {
 
 
 
-
+      // väliaikainen tekstiversiossa
     /**
      * Prints the board not hidden
      */
@@ -253,7 +284,7 @@ public class Board {
             System.out.println();
         }
     }
-
+     // väliaikanen tekstiversiossa
     /**
      * prints the board, using statusInfoa from boardStatus[][] (* if bomb, X if marked, _ if uncovered )
      */

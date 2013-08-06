@@ -5,8 +5,8 @@ import java.util.Scanner;
 import static minesweeper.BoardStatus.*;
 
 /**
- * @author shiera
- */
+* @author shiera
+*/
 
 
 public class GameLogic {
@@ -30,8 +30,8 @@ public class GameLogic {
 
 
     /**
-     * starts th game
-     */
+* starts th game
+*/
     public void play(){
         System.out.println("\n\nwelcome to minesweeper\n\n");
         boolean firstRound = true;
@@ -57,13 +57,13 @@ public class GameLogic {
     }
 
     /**
-     *         runs 1 round of the text-game
-     * @parama firstRound should be true if it is the first round after creating a new board
-     */
+* runs 1 round of the text-game
+* @parama firstRound should be true if it is the first round after creating a new board
+*/
     private void playRound(boolean firstRound){
-
+       // metodi lyhenee kun graafnen käyttöliittymä valmis
         playingRound = true;
-        if (!firstRound)  board.setupBoard();
+        if (!firstRound) board.setupBoard();
         while (playingRound){
             board.printBoard();
             // TODO game crashes if the input is something else than a number
@@ -116,10 +116,10 @@ public class GameLogic {
     }
 
     /**
-     * talks whit the board. sets status of given cordinates to uncovered and ends the game if there is a bomb
-     * @param x
-     * @param y
-     */
+* talks whit the board. sets status of given cordinates to uncovered and ends the game if there is a bomb
+* @param x
+* @param y
+*/
     private void uncover(int x, int y){
         board.setStatusXY(x, y, UNCOVERED );
         if (board.getBoardData()[y][x] == BOMB){
@@ -128,10 +128,10 @@ public class GameLogic {
     }
 
     /**
-     * marks the given cordinate if all marcs (flags) are not used
-     * @param x
-     * @param y
-     */
+* marks the given cordinate if all marcs (flags) are not used
+* @param x
+* @param y
+*/
     private void mark(int x, int y){
         if (board.getMarkedSpacesCount() >= bombAmount){
             System.out.println("no marks left unmark something");
@@ -142,8 +142,8 @@ public class GameLogic {
     }
 
     /**
-     * checks if player is ready to check board
-     */
+* checks if player is ready to check board
+*/
     private void checkIfReady(){
         int ready = -1;
         while (ready != 1 && ready != 0) {
@@ -184,6 +184,5 @@ public class GameLogic {
 
 
 }
-
 
 

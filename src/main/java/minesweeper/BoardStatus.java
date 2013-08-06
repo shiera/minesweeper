@@ -10,5 +10,6 @@ package minesweeper;
 public enum BoardStatus{
     COVERED,
     UNCOVERED,
-    MARKED
+    MARKED,
+
 }
