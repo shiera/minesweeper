@@ -12,20 +12,20 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import static minesweeper.BoardStatus.*;
+import static minesweeper.TestUtils.*;
 import static org.junit.Assert.*;
 
-
-import static minesweeper.BoardStatus.*;
 
 @RunWith(JUnit4.class)
 public class BoardTest {
     Board board;
-    private int testBoardSize = 3;
+
 
 
     @Before
     public void setup(){
-        board = new Board(testBoardSize, 3);
+        board = new Board(TestUtils.testBoardSize, 3);
 
     }
 
@@ -129,86 +129,34 @@ public class BoardTest {
     @Test
     public void configBoardTest(){
         board.setupBoard(makeTestBoard(), 3);
-        assertEquals("all the numbers ar not correct",board.getBoardData(), makeTestBoardWhitNumbers() );
+        assertEquals("all the numbers ar not correct", board.getBoardData(), makeTestBoardWhitNumbers());
 
     }
 
     @Test
     public void expandIf0Test(){
         board.setupBoard(makeTestBoard(), 3);
-        board.setStatusXY(2 ,2 ,UNCOVERED);
-        assertEquals("should expand",UNCOVERED, board.getStatusXY(2,2) );
-        assertEquals("should expand",UNCOVERED,  board.getStatusXY(2,1) );
-        assertEquals("should expand",UNCOVERED,  board.getStatusXY(1,2) );
+        board.setStatusXY(2, 2, UNCOVERED);
+        assertEquals("should expand", UNCOVERED, board.getStatusXY(2, 2));
+        assertEquals("should expand", UNCOVERED, board.getStatusXY(2, 1));
+        assertEquals("should expand", UNCOVERED, board.getStatusXY(1, 2));
         assertEquals("should expand",UNCOVERED,     board.getStatusXY(1,1) );
 
     }
 
+    @Test
+    public void checkBoardTest(){
+        board.setupBoard(makeTestBoard(), 3);
+        assertFalse("Board should not be right before any marking", board.checkBoard());
+        board.setStatusXY(0,0, MARKED);
+        board.setStatusXY(2, 0, MARKED);
+        board.setStatusXY(0,1, MARKED);
+        assertTrue("Board should be right marked", board.checkBoard());
 
-
-
-    private int amountOfbombsFound(Board board){
-        int bombsFound = 0;
-        int[][] boardData = board.getBoardData();
-        for (int y = 0; y <boardData.length ; y++) {
-            for (int x = 0; x <boardData[y].length ; x++) {
-                if (boardData[y][x] == board.BOMB) bombsFound ++;
-            }
-        }
-        return bombsFound;
     }
 
-    private boolean atLeastOneBomb(Board board){
-        int[][] boardData = board.getBoardData();
-        for (int y = 0; y <boardData.length ; y++) {
-            for (int x = 0; x <boardData[y].length ; x++) {
-                if (boardData[y][x] == board.BOMB) return true;
-            }
-        }
-        return false;
-    }
 
-    private boolean isBoardCovered(Board board){
-        BoardStatus[][] boardStatus = board.getBoardStatus() ;
-        for (int y = 0; y <boardStatus.length ; y++) {
-            for (int x = 0; x <boardStatus[y].length ; x++) {
-                if (boardStatus[y][x] != COVERED) return false;
-            }
-        }
-        return true;
-    }
 
-    /**
-     *
-     * @param board testgameboard
-     * @return  true if board is clean
-     */
-    private boolean isBoardClean(Board board){
-        int[][] boardData = board.getBoardData();
-        for (int y = 0; y <boardData.length ; y++) {
-            for (int x = 0; x <boardData[y].length ; x++) {
-                if (boardData[y][x] != 0) return false;
-            }
-        }
-        return true;
-    }
 
-    private int[][] makeTestBoard(){
-        int[][] testBoard = new int[testBoardSize][3];
-        testBoard[0][0] = -1;
-        testBoard[0][2] = -1;
-        testBoard[1][0] = -1;
-        return testBoard;
-    }
-
-    private int[][] makeTestBoardWhitNumbers(){
-        int[][] testBoard = makeTestBoard();
-        testBoard[0][1] = 3;
-        testBoard[1][1] = 3;
-        testBoard[1][2] = 1;
-        testBoard[2][0] = 1;
-        testBoard[2][1] = 1;
-        return testBoard;
-    }
 
 }

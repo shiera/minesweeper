@@ -16,16 +16,41 @@ public class GameLogic {
     private int size;
     private int bombAmount;
 
+
     private boolean running;
     private boolean playingRound;
+
     private Scanner reader = new Scanner(System.in);
 
-    public GameLogic(int size, int boardAmount) {
+    /**
+     *
+     * @param size  boardsize
+     * @param bombAmount  amounts of bombs
+     */
+
+    public GameLogic(int size, int bombAmount) {
         this.size = size;
-        this.bombAmount = boardAmount;
+        this.bombAmount = bombAmount;
         board = new Board(size, bombAmount);
         running = true;
         playingRound = false;
+
+    }
+
+    /**
+     * used in testing
+     * @param size  boardsize
+     * @param bombAmount  amounts if bombs
+     * @param board    board used in test
+     */
+    protected GameLogic(int size, int bombAmount, Board board ){
+        this.size = size;
+        this.bombAmount = bombAmount;
+        this.board = board;
+        running = true;
+        playingRound = false;
+
+
     }
 
 
@@ -63,7 +88,9 @@ public class GameLogic {
     private void playRound(boolean firstRound){
        // metodi lyhenee kun graafnen käyttöliittymä valmis
         playingRound = true;
-        if (!firstRound) board.setupBoard();
+
+        if (!firstRound ) board.setupBoard();
+
         while (playingRound){
             board.printBoard();
             // TODO game crashes if the input is something else than a number

@@ -19,6 +19,10 @@ public class Board {
     // the statusBoard whit 0 for uncovered, -1 for marked bomb and 1 for uncovered
     private BoardStatus[][] boardStatus;
 
+    // testatessa true
+    private boolean testingWhitGivenBoard;
+    private int[][] testingBombs = null;
+
     public Board(int size, int bombAmount) {
         this.size = size;
         this.bombAmount = bombAmount;
@@ -26,9 +30,20 @@ public class Board {
         boardData = new int[size][size];
         boardStatus = new BoardStatus[size][size];
         setupBoard();
+        testingWhitGivenBoard = false;
 
     }
 
+    protected Board(int size, int bombAmount, int[][] bombs){
+        this.size = size;
+        this.bombAmount = bombAmount;
+        // TODO bombamount can't be bigger than  size*size/4
+        boardData = new int[size][size];
+        boardStatus = new BoardStatus[size][size];
+        testingWhitGivenBoard = true;
+        testingBombs = bombs;
+        setupBoard();
+    }
 
 
     /**
@@ -148,6 +163,10 @@ public class Board {
         placeBombs();
         placeNumbers();
         coverBoard();
+        // testin takia
+        if (testingWhitGivenBoard){
+            setupBoard(testingBombs,bombAmount);
+        }
     }
 
     // käytetty testaamiseen

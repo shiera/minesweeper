@@ -5,6 +5,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+
+
+import static minesweeper.TestUtils.*;
+
 import static org.junit.Assert.*;
 
 
@@ -18,6 +22,26 @@ import static minesweeper.BoardStatus.*;
  * To change this template use File | Settings | File Templates.
  */
 public class GameLogicTest {
+    Board board;
+    GameLogic gameLogic;
+
+
+
+    @Before
+    public void setup(){
+        board = new Board(TestUtils.testBoardSize, bombsInTest);
+        // vain etukäteen määritelty lauta
+        board.setupBoard(makeTestBoard(), bombsInTest);
+        gameLogic = new GameLogic(testBoardSize, bombsInTest, board );
+    }
+
+    @Test
+    public void playTest(){
+        gameLogic.play();
+        // TODO selvitä miten testata jotain joka vaatii inputtia
+    }
+
+
 
 
 }
