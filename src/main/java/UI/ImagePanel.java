@@ -15,14 +15,16 @@ import minesweeper.TileAppearence;
 
 public class ImagePanel extends JPanel{
 
-    private BufferedImage image;
+    private BufferedImage dirtImage;
+    private BufferedImage bombImage;
     private BufferedImage grassImage;
     private Board board;
 
     public ImagePanel(Board board) {
         try {
-            image = ImageIO.read(new File("//home//cec//projects//minesweeper//src//pictures//test.jpg"));
+            dirtImage = ImageIO.read(new File("//home//cec//projects//minesweeper//src//pictures//dirt.jpg"));
             grassImage = ImageIO.read(new File("//home//cec//projects//minesweeper//src//pictures//grass.jpg"));
+            bombImage = ImageIO.read(new File("//home//cec//projects//minesweeper//src//pictures//bomb.jpg"));
         } catch (IOException ex) {
             // handle exception...
         }
@@ -40,8 +42,11 @@ public class ImagePanel extends JPanel{
                 if (board.getTileAppearance(x, y ) == TileAppearence.GRASS)  {
                     g2.drawImage(grassImage, 32*x, 32*y, null);
                 }
+                else if (board.getTileAppearance(x,y) == TileAppearence.BOMBFIELD){
+                    g2.drawImage(bombImage, 32*x, 32*y, null);
+                }
                 else{
-                    g2.drawImage(image, 32*x, 32*y, null);
+                    g2.drawImage(dirtImage, 32*x, 32*y, null);
                 }
 
             }
