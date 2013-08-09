@@ -1,5 +1,8 @@
 package minesweeper;
 
+import UI.ImagePanel;
+import UI.SimpleFrame;
+
 import java.util.Scanner;
 
 import static minesweeper.BoardStatus.*;
@@ -22,6 +25,8 @@ public class GameLogic {
 
     private Scanner reader = new Scanner(System.in);
 
+    ImagePanel kuvapaneeli;
+
     /**
      *
      * @param size  boardsize
@@ -34,6 +39,7 @@ public class GameLogic {
         board = new Board(size, bombAmount);
         running = true;
         playingRound = false;
+        kuvapaneeli = new ImagePanel(board);
 
     }
 
@@ -49,7 +55,7 @@ public class GameLogic {
         this.board = board;
         running = true;
         playingRound = false;
-
+         kuvapaneeli = new ImagePanel(board);
 
     }
 
@@ -58,6 +64,11 @@ public class GameLogic {
 * starts th game
 */
     public void play(){
+        //------- TODO
+
+        new SimpleFrame("mun peli!1", kuvapaneeli );
+
+        //________
         System.out.println("\n\nwelcome to minesweeper\n\n");
         boolean firstRound = true;
         while (running){
@@ -139,6 +150,9 @@ public class GameLogic {
             else{
                 System.out.println("not an option");
             }
+            // ---- TODO
+            kuvapaneeli.repaint();
+            //
         }
     }
 
