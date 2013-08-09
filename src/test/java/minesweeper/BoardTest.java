@@ -155,6 +155,18 @@ public class BoardTest {
 
     }
 
+    @Test
+    public void getTileStatusTest(){
+        board.setupBoard(makeTestBoard(), 3);
+        assertEquals("", TileAppearence.GRASS, board.getTileAppearance(0, 0));
+        board.setStatusXY(0,0, MARKED );
+        assertEquals("", TileAppearence.FLAG, board.getTileAppearance(0, 0));
+        board.setStatusXY(2,0, UNCOVERED);
+        assertEquals("", TileAppearence.BOMBFIELD, board.getTileAppearance(2, 0));
+        board.setStatusXY(1,1, UNCOVERED);
+        assertEquals("", TileAppearence.NUMBER3, board.getTileAppearance(1, 1));
+    }
+
 
 
 
