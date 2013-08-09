@@ -3,6 +3,7 @@ package minesweeper;
 import java.util.Random;
 
 import static minesweeper.BoardStatus.*;
+import static minesweeper.TileAppearence.*;
 
 /**
  * @author shiera
@@ -11,7 +12,7 @@ import static minesweeper.BoardStatus.*;
 public class Board {
 
     public static final int BOMB = -1;
-    private int size;
+    private int boardSize;
     private int bombAmount;
     private int markedSpacesCount = 0;
     // the board whit -1 for bomb and numbers 0-9 for bombs close
@@ -23,28 +24,31 @@ public class Board {
     private boolean testingWhitGivenBoard;
     private int[][] testingBombs = null;
 
-    public Board(int size, int bombAmount) {
-        this.size = size;
+    public Board(int boardSize, int bombAmount) {
+        this.boardSize = boardSize;
         this.bombAmount = bombAmount;
-        // TODO bombamount can't be bigger than  size*size/4
-        boardData = new int[size][size];
-        boardStatus = new BoardStatus[size][size];
+        // TODO bombamount can't be bigger than  boardSize*boardSize/4
+        boardData = new int[boardSize][boardSize];
+        boardStatus = new BoardStatus[boardSize][boardSize];
         setupBoard();
         testingWhitGivenBoard = false;
 
     }
 
-    protected Board(int size, int bombAmount, int[][] bombs){
-        this.size = size;
+    protected Board(int boardSize, int bombAmount, int[][] bombs){
+        this.boardSize = boardSize;
         this.bombAmount = bombAmount;
-        // TODO bombamount can't be bigger than  size*size/4
-        boardData = new int[size][size];
-        boardStatus = new BoardStatus[size][size];
+        // TODO bombamount can't be bigger than  boardSize*boardSize/4
+        boardData = new int[boardSize][boardSize];
+        boardStatus = new BoardStatus[boardSize][boardSize];
         testingWhitGivenBoard = true;
         testingBombs = bombs;
         setupBoard();
     }
 
+    public int getBoardSize() {
+        return boardSize;
+    }
 
     /**
      *
@@ -119,7 +123,7 @@ public class Board {
      * @param y
      * @return  status in the cordinates
      */
-    protected BoardStatus getStatusXY(int x, int y){
+    public BoardStatus getStatusXY(int x, int y){
         return boardStatus[y][x];
     }
 
@@ -129,7 +133,7 @@ public class Board {
      * @param y
      * @return  data (number) in the cordinates  -1 = bomb
      */
-    protected int getDataXY(int x, int y){
+    public int getDataXY(int x, int y){
         return boardData[y][x];
     }
 
@@ -187,8 +191,8 @@ public class Board {
      * covers the whole board ( all cords to covered in int[][] boardStatus)
      */
     private void coverBoard(){
-        for (int y = 0; y <size ; y++) {
-            for (int x = 0; x <size ; x++) {
+        for (int y = 0; y < boardSize; y++) {
+            for (int x = 0; x < boardSize; x++) {
                 boardStatus[y][x] = COVERED;
             }
         }
@@ -198,8 +202,8 @@ public class Board {
      * clears board (sets all cordinates in boardData[][] to 0
      */
     protected void clearBoard(){
-        for (int y = 0; y <size ; y++) {
-            for (int x = 0; x <size ; x++) {
+        for (int y = 0; y < boardSize; y++) {
+            for (int x = 0; x < boardSize; x++) {
                 boardData[y][x] = 0;
             }
         }
@@ -213,15 +217,15 @@ public class Board {
      private void placeBombs(){
         Random randomPlace = new Random();
         for (int i = 0; i <bombAmount ; i++) {
-             int x = randomPlace.nextInt(size);
-             int y = randomPlace.nextInt(size);
+             int x = randomPlace.nextInt(boardSize);
+             int y = randomPlace.nextInt(boardSize);
              while (boardData[y][x] == BOMB){
                  x ++;
-                 if (x >= size){
+                 if (x >= boardSize){
                      x = 0;
                      y ++;
                  }
-                 if (y >= size){
+                 if (y >= boardSize){
                      y = 0;
                  }
              }
@@ -236,8 +240,8 @@ public class Board {
      *places the numbers on the board
      */
     private void placeNumbers(){
-        for (int y = 0; y < size ; y++) {
-            for (int x = 0; x <size ; x++) {
+        for (int y = 0; y < boardSize; y++) {
+            for (int x = 0; x < boardSize; x++) {
                 if (boardData[y][x] != BOMB){
                     boardData[y][x] =  bombsClose(x,y);
                 }
@@ -268,7 +272,7 @@ public class Board {
      * @return   true if cord is on board, othervise false
      */
     protected boolean cordOnBoard(int x, int y){
-        if (y >= 0 && x >= 0 && x < size && y < size) return true;
+        if (y >= 0 && x >= 0 && x < boardSize && y < boardSize) return true;
         return false;
     }
 
@@ -295,8 +299,8 @@ public class Board {
      * Prints the board not hidden
      */
     public void printShownBoard(){
-        for (int y = 0; y < size ; y++) {
-            for (int x = 0; x < size ; x++) {
+        for (int y = 0; y < boardSize; y++) {
+            for (int x = 0; x < boardSize; x++) {
                 if (boardData[y][x] == BOMB)System.out.print("* ");
                 else System.out.print(boardData[y][x] + " ");
             }
@@ -308,8 +312,8 @@ public class Board {
      * prints the board, using statusInfoa from boardStatus[][] (* if bomb, X if marked, _ if uncovered )
      */
     public void printBoard(){
-        for (int y = 0; y < size ; y++) {
-            for (int x = 0; x < size ; x++) {
+        for (int y = 0; y < boardSize; y++) {
+            for (int x = 0; x < boardSize; x++) {
                 switch (boardStatus[y][x]) {
 
                     case UNCOVERED:
@@ -336,14 +340,40 @@ public class Board {
         if (markedSpacesCount < bombAmount){
             return false;
         }
-        for (int y = 0; y <size ; y++) {
-            for (int x = 0; x <size ; x++) {
+        for (int y = 0; y < boardSize; y++) {
+            for (int x = 0; x < boardSize; x++) {
                 if (boardData[y][x] == BOMB && (boardStatus[y][x] != MARKED )){
                     return false;
                 }
             }
         }
         return true;
+    }
+
+    /**
+     *
+     * @param x
+     * @param y
+     * @return  Enum that tells what picture an tile shall have
+     */
+    public TileAppearence getTileAppearance(int x, int y){
+        BoardStatus status = getStatusXY(x,y);
+        int data = getDataXY(x, y);
+        TileAppearence tileStatus = GRASS;
+        if (status == COVERED) tileStatus = GRASS;
+        else if (status == MARKED)  tileStatus = FLAG;
+        else if (data == -1) tileStatus = BOMBFIELD;
+        else if (data == 1)  tileStatus = NUMBER1;
+        else if (data == 2)  tileStatus = NUMBER2;
+        else if (data == 3)  tileStatus = NUMBER3;
+        else if (data == 4)  tileStatus = NUMBER4;
+        else if (data == 5)  tileStatus = NUMBER5;
+        else if (data == 6)  tileStatus = NUMBER6;
+        else if (data == 7)  tileStatus = NUMBER7;
+        else if (data == 8)  tileStatus = NUMBER8;
+        else if (data == 9)  tileStatus = NUMBER9;
+        else tileStatus = NUMBER0;
+        return tileStatus;
     }
 
 }
