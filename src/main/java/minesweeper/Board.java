@@ -198,6 +198,14 @@ public class Board {
         }
     }
 
+    void uncoverBoard(){
+        for (int y = 0; y < boardSize; y++) {
+            for (int x = 0; x < boardSize; x++) {
+                boardStatus[y][x] = UNCOVERED;
+            }
+        }
+    }
+
     /**
      * clears board (sets all cordinates in boardData[][] to 0
      */

@@ -89,6 +89,7 @@ public class GameLogic {
             if (answ == 0){
                 running = false;
             }
+            kuvapaneeli.repaint();
         }
     }
 
@@ -205,6 +206,7 @@ public class GameLogic {
             else lost();
 
 
+
         }
     }
 
@@ -214,12 +216,14 @@ public class GameLogic {
         System.out.println("\n\nARRGGH a BOMB\n\n");
         playingRound = false;
         board.printShownBoard();
+        board.uncoverBoard();
     }
 
 
     private void won(){
         System.out.println("\n\nYay! All Bombs found");
         playingRound = false;
+        board.uncoverBoard();
         board.printShownBoard();
     }
 

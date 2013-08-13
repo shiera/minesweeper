@@ -10,7 +10,7 @@ package UI;
 
 import minesweeper.Board;
 import minesweeper.BoardStatus;
-
+// testingmain
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
@@ -19,7 +19,7 @@ public class Main {
         ImagePanel kuvapaneeli = new ImagePanel(board);
         new SimpleFrame("mun peli!1", kuvapaneeli );
         System.out.println();
-        Thread.sleep(1000);
+        Thread.sleep(3000);
         board.setStatusXY(0,0, BoardStatus.UNCOVERED);
         kuvapaneeli.repaint();
 
