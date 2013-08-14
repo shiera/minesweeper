@@ -14,15 +14,15 @@ import minesweeper.BoardStatus;
 public class Main {
 
     public static void main(String[] args) throws InterruptedException {
-        Board board = new Board(3,3);
+        /*Board board = new Board(3,3);
         board.setupBoard();
-        ImagePanel kuvapaneeli = new ImagePanel(board);
-        new SimpleFrame("mun peli!1", kuvapaneeli );
+        BoardPanel kuvapaneeli = new BoardPanel(board);
+        new BaseFrame("test", kuvapaneeli );
         System.out.println();
         Thread.sleep(3000);
         board.setStatusXY(0,0, BoardStatus.UNCOVERED);
         kuvapaneeli.repaint();
-
+         */
 
     }
 }

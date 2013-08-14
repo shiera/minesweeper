@@ -61,15 +61,15 @@ public enum TileAppearence {
      * @param y  tile y cordinate
      * @param g2 graphics for painting
      */
-    public void drawImage(int x, int y, Graphics2D g2){
+    public void drawImage(int x, int y, Graphics2D g2, int tileSize, int boardOrigoX, int boardOrigoY){
         if (isANumber  ){
-            g2.drawImage(dirt1, x*32, y*32, null);
+            g2.drawImage(dirt1, x*tileSize + boardOrigoX, y*tileSize + boardOrigoY, null);
         }
 
         if (this ==FLAG){
-            g2.drawImage(grass1,x*32,y*32, null);
+            g2.drawImage(grass1,x*tileSize + boardOrigoX, y*tileSize + boardOrigoY, null);
         }
-        g2.drawImage(image,x*32,y*32, null);
+        g2.drawImage(image,x*tileSize + boardOrigoX, y*tileSize + boardOrigoY, null);
     }
 
 

@@ -109,7 +109,7 @@ public class Board {
                 boardStatus[y][x] = COVERED;
             }  */
             else{
-                System.out.println("Can't do that");
+                System.out.println("Can't set status" + status + " to " + x + " " + y + "status there is alredy " + getStatusXY(x, y));
             }
         }
         else{

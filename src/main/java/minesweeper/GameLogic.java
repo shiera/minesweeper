@@ -1,7 +1,7 @@
 package minesweeper;
 
-import UI.ImagePanel;
-import UI.SimpleFrame;
+import UI.BaseFrame;
+import UI.BoardPanel;
 
 import java.util.Scanner;
 
@@ -25,7 +25,8 @@ public class GameLogic {
 
     private Scanner reader = new Scanner(System.in);
 
-    ImagePanel kuvapaneeli;
+
+    BoardPanel kuvapaneeli;
 
     /**
      *
@@ -39,7 +40,8 @@ public class GameLogic {
         board = new Board(size, bombAmount);
         running = true;
         playingRound = false;
-        kuvapaneeli = new ImagePanel(board);
+        kuvapaneeli = new BoardPanel(board);
+
 
     }
 
@@ -55,7 +57,7 @@ public class GameLogic {
         this.board = board;
         running = true;
         playingRound = false;
-         kuvapaneeli = new ImagePanel(board);
+         kuvapaneeli = new BoardPanel(board);
 
     }
 
@@ -66,7 +68,7 @@ public class GameLogic {
     public void play(){
         //------- TODO
 
-        new SimpleFrame("mun peli!1", kuvapaneeli );
+        new BaseFrame("Minesweeper", kuvapaneeli );
 
         //________
         System.out.println("\n\nwelcome to minesweeper\n\n");
