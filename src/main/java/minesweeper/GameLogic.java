@@ -16,6 +16,7 @@ public class GameLogic {
     private int size;
     private int bombAmount;
     private boolean playing;
+    private boolean hasWon;
 
 
 
@@ -43,6 +44,14 @@ public class GameLogic {
         playing = true;
     }
 
+    public boolean isPlaying() {
+        return playing;
+    }
+
+    public boolean isHasWon() {
+        return hasWon;
+    }
+
     /**
      *
      * @return  board used in game
@@ -67,6 +76,7 @@ public class GameLogic {
     public void newGame(){
         board.setupBoard();
         playing = true;
+        hasWon = false;
     }
 
 
@@ -161,6 +171,7 @@ public class GameLogic {
         board.uncoverBoard();
         board.printShownBoard();
         playing = false;
+        hasWon = true;
     }
 
 

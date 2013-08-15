@@ -56,7 +56,16 @@ public class BoardPanel extends JPanel{
                 if (button == LEFTBUTTON && game.flagsLeft() == 0 && x == board.getBoardSize()/2 && y == board.getBoardSize() +2 ) {
                     game.checkTheBoard();
                 }
+
                 repaint();
+                if (!game.isPlaying()){
+                    if (game.isHasWon()){
+                        // TODO print winscreen
+                    }
+                    else{
+                        // TODO game is lost
+                    }
+                }
 
             }
         });
