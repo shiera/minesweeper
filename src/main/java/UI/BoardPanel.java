@@ -27,6 +27,8 @@ public class BoardPanel extends JPanel{
     private int yBoardOrigoCord = 32;
     private int lastCordinateOfBoardX;
     private int lastCordinateOfBoardY;
+    private boolean lost = false;
+
 
     public BoardPanel(final GameLogic game) {
         this.board = game.getBoard();
@@ -57,18 +59,28 @@ public class BoardPanel extends JPanel{
                     game.checkTheBoard();
                 }
 
-                repaint();
+
                 if (!game.isPlaying()){
                     if (game.isHasWon()){
                         // TODO print winscreen
                     }
                     else{
                         // TODO game is lost
+                        lost = true;
                     }
                 }
+                repaint();
 
             }
         });
+    }
+
+    protected void lostScreen(Graphics2D g2){
+        for (int y = 0; y < board.getBoardSize(); y++) {
+            for (int x = 0; x <board.getBoardSize() ; x++) {
+                TileAppearence.BOMBFIELD.drawImage(x,y,g2, tileSize, xBoardOrigoCord, yBoardOrigoCord);
+            }
+        }
     }
 
     /**
@@ -91,6 +103,9 @@ public class BoardPanel extends JPanel{
         if (game.flagsLeft() == 0){
             g2.drawString("No flags left to put, press button to check" , tileSize , lastCordinateOfBoardY + (2*tileSize));
            TileAppearence.GRASS.drawImage(board.getBoardSize()/2,board.getBoardSize() +2,g2, tileSize, xBoardOrigoCord, yBoardOrigoCord);
+        }
+        if (lost){
+            lostScreen(g2);
         }
     }
 
