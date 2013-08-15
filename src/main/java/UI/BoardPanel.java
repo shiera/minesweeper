@@ -6,18 +6,13 @@ package UI;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import com.sun.webpane.platform.graphics.RenderTheme;
 import minesweeper.Board;
-import minesweeper.BoardStatus;
 import minesweeper.GameLogic;
 import minesweeper.TileAppearence;
 
+import static minesweeper.BoardStatus.*;
 
 
 public class BoardPanel extends JPanel{
@@ -25,13 +20,19 @@ public class BoardPanel extends JPanel{
 
     public static final int LEFTBUTTON = MouseEvent.BUTTON1;
     public static final int RIGHTBUTTON= MouseEvent.BUTTON3;
-    private final Board board;
+    private Board board;
+    private GameLogic game;
     private int tileSize = 32;
-    private int xBoardOrigoCord = 0;
-    private int yBoardOrigoCord = 0;
+    private int xBoardOrigoCord = 32;
+    private int yBoardOrigoCord = 32;
+    private int lastCordinateOfBoardX;
+    private int lastCordinateOfBoardY;
 
-    public BoardPanel(final Board board, final GameLogic game) {
-        this.board = board;
+    public BoardPanel(final GameLogic game) {
+        this.board = game.getBoard();
+        this.game = game;
+        lastCordinateOfBoardX = (board.getBoardSize()*tileSize)+ xBoardOrigoCord;
+        lastCordinateOfBoardY = (board.getBoardSize()*tileSize)+ yBoardOrigoCord;
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -39,13 +40,21 @@ public class BoardPanel extends JPanel{
                 int y = (e.getY()-yBoardOrigoCord)/tileSize;
                 int button = e.getButton();
                 System.out.println("clicked x = " + x + " y = " + y + " button " + e.getButton());
-                // todo gamelogicia kutsutaan ja  vain gamelogic käskee boardia
+
                 // frame päättää paneelien välillä vaihtamisen
                 if (button == LEFTBUTTON){
-                    board.setStatusXY(x, y, BoardStatus.UNCOVERED);
+
+                    game.doMove(x, y, UNCOVERED);
                 }
                 if (button == RIGHTBUTTON){
-                    board.setStatusXY(x, y, BoardStatus.MARKED);
+                    if (board.getStatusXY(x,y) == MARKED){
+                        game.doMove(x, y, COVERED);
+                    }
+                    else  game.doMove(x, y, MARKED);
+                }
+                // jos painettiin valmisnappia
+                if (button == LEFTBUTTON && game.flagsLeft() == 0 && x == board.getBoardSize()/2 && y == board.getBoardSize() +2 ) {
+                    game.checkTheBoard();
                 }
                 repaint();
 
@@ -61,11 +70,18 @@ public class BoardPanel extends JPanel{
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         super.paintComponent(g);
-        // draw woard
+        // draw board
         for (int y = 0; y < board.getBoardSize(); y++) {
             for (int x = 0; x <board.getBoardSize() ; x++) {
                 board.getTileAppearance(x,y).drawImage(x,y,g2, tileSize, xBoardOrigoCord, yBoardOrigoCord);
             }
+        }
+
+        g2.drawString("Flags left: " + game.flagsLeft() , lastCordinateOfBoardX/2 , lastCordinateOfBoardY + tileSize);
+        // draw if flags used
+        if (game.flagsLeft() == 0){
+            g2.drawString("No flags left to put, press button to check" , tileSize , lastCordinateOfBoardY + (2*tileSize));
+           TileAppearence.GRASS.drawImage(board.getBoardSize()/2,board.getBoardSize() +2,g2, tileSize, xBoardOrigoCord, yBoardOrigoCord);
         }
     }
 

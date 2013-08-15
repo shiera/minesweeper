@@ -109,7 +109,7 @@ public class Board {
                 boardStatus[y][x] = COVERED;
             }  */
             else{
-                System.out.println("Can't set status" + status + " to " + x + " " + y + "status there is alredy " + getStatusXY(x, y));
+                System.out.println("Can't set status" + status + " to " + x + " " + y + "status there is alredy " + status);
             }
         }
         else{
@@ -198,6 +198,9 @@ public class Board {
         }
     }
 
+    /**
+     * uncovers board
+     */
     void uncoverBoard(){
         for (int y = 0; y < boardSize; y++) {
             for (int x = 0; x < boardSize; x++) {

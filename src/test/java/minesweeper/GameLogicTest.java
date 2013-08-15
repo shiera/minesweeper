@@ -2,17 +2,12 @@ package minesweeper;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 
-
-
-import static minesweeper.TestUtils.*;
-
+import static minesweeper.BoardStatus.*;
 import static org.junit.Assert.*;
 
 
-import static minesweeper.BoardStatus.*;
+import static minesweeper.TestUtils.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,10 +31,25 @@ public class GameLogicTest {
     }
 
     @Test
-    public void playTest(){
-        gameLogic.play();
-        // TODO selvitä miten testata jotain joka vaatii inputtia
+    public void doMoveTets1(){
+        gameLogic.doMove(10,10, UNCOVERED);
+        gameLogic.doMove(-1,-1, MARKED);
+        gameLogic.doMove(0, 4, MARKED);
+        gameLogic.doMove(4,0, UNCOVERED);
+        assertTrue("board should not be changed after trying illegal moves", TestUtils.isBoardCovered(gameLogic.getBoard()));
     }
+
+    @Test
+    public  void doMoveTest2(){
+        assertTrue("should be able to play before win/loose",gameLogic.doMove(0,0, MARKED));
+        gameLogic.doMove(2, 0, MARKED);
+        gameLogic.doMove(0,1, MARKED);
+        gameLogic.checkTheBoard();
+        assertFalse("game should be won and no more moves should be made", gameLogic.doMove(0,0,UNCOVERED));
+    }
+
+
+
 
 
 
