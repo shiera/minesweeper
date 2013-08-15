@@ -105,7 +105,7 @@ public class BoardPanel extends JPanel{
            TileAppearence.GRASS.drawImage(board.getBoardSize()/2,board.getBoardSize() +2,g2, tileSize, xBoardOrigoCord, yBoardOrigoCord);
         }
         if (lost){
-            lostScreen(g2);
+           // lostScreen(g2);
         }
     }
 
