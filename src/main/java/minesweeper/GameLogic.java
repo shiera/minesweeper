@@ -54,7 +54,7 @@ public class GameLogic {
 
     /**
      *
-     * @return  board used in game
+     * @return  board used in gameLogic
      */
     public Board getBoard(){
         return board;
@@ -71,7 +71,7 @@ public class GameLogic {
 
 
     /**
-     setup board for new game
+     setup board for new gameLogic
      */
     public void newGame(){
         board.setupBoard();
@@ -101,11 +101,11 @@ public class GameLogic {
      * @param x cordinate of board
      * @param y cordinate of board
      * @param status  status wanted on board
-     * @return false if no game running
+     * @return false if no gameLogic running
      */
     public boolean doMove(int x, int y, BoardStatus status){
             if (!playing){
-               System.out.println("no game running");
+               System.out.println("no gameLogic running");
                return false;
             }
             // testaukseen että lauta piirtyy oikein
@@ -132,7 +132,7 @@ public class GameLogic {
     }
 
     /**
-    * talks whit the board. sets status of given cordinates to uncovered and ends the game if there is a bomb
+    * talks whit the board. sets status of given cordinates to uncovered and ends the gameLogic if there is a bomb
     * @param x
     * @param y
     */

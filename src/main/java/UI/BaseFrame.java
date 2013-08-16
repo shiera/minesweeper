@@ -1,9 +1,9 @@
 package UI;
 
 
-import UI.secreens.BoardScreen;
-import UI.secreens.MenuScreen;
-import UI.secreens.OptionScreen;
+import UI.screens.BoardScreen;
+import UI.screens.MenuScreen;
+import UI.screens.OptionScreen;
 import minesweeper.GameLogic;
 
 import javax.swing.*;
@@ -68,9 +68,9 @@ public class BaseFrame extends JFrame {
 
 
     private void makePanels(){
-        menu = new MenuScreen(this);
+        menu = new MenuScreen(logic, this);
         logic =  new GameLogic(5,5);
         gameBoard = new BoardScreen(logic, this);
-        options = new OptionScreen(this, logic);
+        options = new OptionScreen(logic, this);
     }
 }

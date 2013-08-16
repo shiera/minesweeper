@@ -45,7 +45,7 @@ public class GameLogicTest {
         gameLogic.doMove(2, 0, MARKED);
         gameLogic.doMove(0,1, MARKED);
         gameLogic.checkTheBoard();
-        assertFalse("game should be won and no more moves should be made", gameLogic.doMove(0,0,UNCOVERED));
+        assertFalse("gameLogic should be won and no more moves should be made", gameLogic.doMove(0,0,UNCOVERED));
     }
 
 

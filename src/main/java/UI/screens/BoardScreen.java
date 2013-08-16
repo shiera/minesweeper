@@ -1,13 +1,10 @@
-package UI.secreens;
+package UI.screens;
 
 /**
  * Author: Shiera
  */
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
-import javax.swing.*;
 
 import UI.*;
 import minesweeper.GameLogic;
@@ -15,15 +12,13 @@ import minesweeper.GameLogic;
 import static minesweeper.BoardStatus.*;
 
 
-public class BoardScreen extends JPanel{
+public class BoardScreen extends Screen{
 
 
-    public static final int LEFTBUTTON = MouseEvent.BUTTON1;
-    public static final int RIGHTBUTTON= MouseEvent.BUTTON3;
+
 
     private boolean lost;
 
-    private GameLogic game;
 
     private int tileSize = 32;
 
@@ -39,22 +34,18 @@ public class BoardScreen extends JPanel{
     private UI.Button checkButton;
     private UI.Button menuButton;
 
-
-    public BoardScreen(final GameLogic game, BaseFrame frame) {
-
-        this.game = game;
-
-        makeButtons(frame);
-        addMouse(game);
-
+    public BoardScreen(GameLogic game, BaseFrame frame) {
+        super(game, frame);
     }
+
 
     /**
      * do when mouse was clicked
      * @param e
      * @param game
      */
-    private void whenClicked(MouseEvent e, GameLogic game) {
+    @Override
+    protected void whenClicked(MouseEvent e, GameLogic game) {
         int posX = e.getX();
         int posY = e.getY();
         int tileX = (posX - xBoardOrigoCord) / tileSize;
@@ -87,7 +78,7 @@ public class BoardScreen extends JPanel{
             if (game.isHasWon()) {
                 // TODO print winscreen
             } else {
-                // TODO game is lost
+                // TODO gameLogic is lost
                 lost = true;
             }
         }
@@ -98,7 +89,8 @@ public class BoardScreen extends JPanel{
      * @param e
      * @param game
      */
-    private void mouseMoove(MouseEvent e, GameLogic game) {
+    @Override
+    protected boolean mouseMove(MouseEvent e, GameLogic game) {
         choosedTileX = (e.getX() - xBoardOrigoCord) / tileSize;
         choosedTileY = (e.getY() - yBoardOrigoCord) / tileSize;
         if (    e.getX() < xBoardOrigoCord ||
@@ -110,30 +102,29 @@ public class BoardScreen extends JPanel{
             choosedTileY = -1;
 
         }
+        return true;
 
     }
 
 
     /**
      * draws grapics
-     * @param g
+     * @param g2
      */
     @Override
-    protected void paintComponent(Graphics g) {
-        int lastCordinateOfBoardX = (game.getBoard().getBoardSize()*tileSize)+ xBoardOrigoCord;
-        int lastCordinateOfBoardY = (game.getBoard().getBoardSize()*tileSize)+ yBoardOrigoCord;
-        Graphics2D g2 = (Graphics2D) g;
-        super.paintComponent(g);
+    protected void paintScreen(Graphics2D g2) {
+        int lastCoordinateOfBoardX = (gameLogic.getBoard().getBoardSize()*tileSize)+ xBoardOrigoCord;
+        int lastCoordinateOfBoardY = (gameLogic.getBoard().getBoardSize()*tileSize)+ yBoardOrigoCord;
         // draw board
-        for (int y = 0; y < game.getBoard().getBoardSize(); y++) {
-            for (int x = 0; x <game.getBoard().getBoardSize() ; x++) {
-                game.getBoard().getTileAppearance(x, y).drawImage(x,y,g2, tileSize, xBoardOrigoCord, yBoardOrigoCord);
+        for (int y = 0; y < gameLogic.getBoard().getBoardSize(); y++) {
+            for (int x = 0; x < gameLogic.getBoard().getBoardSize() ; x++) {
+                gameLogic.getBoard().getTileAppearance(x, y).drawImage(x,y,g2, tileSize, xBoardOrigoCord, yBoardOrigoCord);
             }
         }
-        g2.drawString("Flags left: " + game.flagsLeft(), lastCordinateOfBoardX / 2, lastCordinateOfBoardY + tileSize);
+        g2.drawString("Flags left: " + gameLogic.flagsLeft(), lastCoordinateOfBoardX / 2, lastCoordinateOfBoardY + tileSize);
         // draw if flags used
-        if (  game.flagsLeft() == 0){
-            g2.drawString("No flags left to put, press button to check" , tileSize , lastCordinateOfBoardY + (2*tileSize));
+        if (  gameLogic.flagsLeft() == 0){
+            g2.drawString("No flags left to put, press button to check" , tileSize , lastCoordinateOfBoardY + (2*tileSize));
             checkButton.draw(g2);
         }
         menuButton.draw(g2);
@@ -144,15 +135,17 @@ public class BoardScreen extends JPanel{
     }
 
 
+
     /**
      * make all the buttons in the gameScreen (not the tiles)
      * @param frame
      */
-    private void makeButtons(BaseFrame frame){
-        checkButton = new UI.Button( frame,"grass.jpg", game.getBoard().getBoardSize()/2*tileSize, game.getBoard().getBoardSize()*tileSize+ 2*tileSize, new ButtonHandler() {
+    @Override
+    protected void makeButtons(BaseFrame frame){
+        checkButton = new UI.Button( frame,"grass.jpg", gameLogic.getBoard().getBoardSize()/2*tileSize, gameLogic.getBoard().getBoardSize()*tileSize+ 2*tileSize, new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
-                game.checkTheBoard();
+                gameLogic.checkTheBoard();
             }
         });
         menuButton = new UI.Button( frame, "menu.png", 100, 0, new ButtonHandler() {
@@ -164,29 +157,7 @@ public class BoardScreen extends JPanel{
     }
 
 
-    private void addMouse(final GameLogic game) {
-        addMouseMotionListener(new MouseMotionListener() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                //To change body of implemented methods use File | Settings | File Templates.
-            }
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                mouseMoove(e, game);
-                repaint();
-            }
-        });
 
-        addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                whenClicked(e, game);
-                repaint();
-
-            }
-        });
-    }
 
 
 }
