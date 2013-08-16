@@ -1,9 +1,8 @@
 package UI;
 
 
-import UI.screens.BoardScreen;
-import UI.screens.MenuScreen;
-import UI.screens.OptionScreen;
+
+import UI.screens.*;
 import minesweeper.GameLogic;
 
 import javax.swing.*;
@@ -16,9 +15,9 @@ public class BaseFrame extends JFrame {
 
     private static final int DEFAULT_WIDTH = 800;
     private static final int DEFAULT_HEIGHT = 800;
-    private JComponent menu;
-    private JComponent gameBoard;
-    private JComponent options;
+    private Screen menu;
+    private Screen gameBoard;
+    private Screen options;
     private GameLogic logic;
 
     public BaseFrame (String title){
@@ -48,7 +47,11 @@ public class BaseFrame extends JFrame {
 
     public void changeToGame(){
         logic.newGame();
+        setPreferredSize(new Dimension(gameBoard.getScreenWidth(), gameBoard.getScreenHeight()));
+
         changeScreen(gameBoard);
+
+
     }
 
     public void changeToMenu(){
@@ -69,7 +72,7 @@ public class BaseFrame extends JFrame {
 
     private void makePanels(){
         menu = new MenuScreen(logic, this);
-        logic =  new GameLogic(5,5);
+        logic =  new GameLogic(5,500);
         gameBoard = new BoardScreen(logic, this);
         options = new OptionScreen(logic, this);
     }

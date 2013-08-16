@@ -1,9 +1,11 @@
 package minesweeper;
 
+import UI.TileAppearence;
+
 import java.util.Random;
 
 import static minesweeper.BoardStatus.*;
-import static minesweeper.TileAppearence.*;
+import static UI.TileAppearence.*;
 
 /**
  * @author shiera
@@ -28,7 +30,7 @@ public class Board {
         this.boardSize = boardSize;
         this.bombAmount = bombAmount;
         if (bombAmount > (boardSize*boardSize)/4){
-            bombAmount = (boardSize*boardSize)/4;
+            this.bombAmount = (boardSize*boardSize)/4;
         }
         boardData = new int[boardSize][boardSize];
         boardStatus = new BoardStatus[boardSize][boardSize];
@@ -59,13 +61,7 @@ public class Board {
 
     /**
      *
-     * @ this.boardSize = boardSize;
-        this.bombAmount = bombAmount;
-        if (bombAmount > (boardSize*boardSize)/4){
-            bombAmount = (boardSize*boardSize)/4;
-        }
-        boardData = new int[boardSize][boardSize];
-        boardStatus = new BoardStatus[boardSize][boardSize];return the amount of bombs, that will be at the board (afterSetup)
+     * @return the amount of bombs, that will be at the board (afterSetup)
      */
     public int getBombAmount() {
         return bombAmount;
@@ -143,13 +139,14 @@ public class Board {
     }
 
     /**
-     *
+     * uncovers tile at x, y locations and if its 0, uncovers all tiles around
      * @param x  x-cordinate
      * @param y  y-cordinate
      */
     private void expandIf0(int x, int y){
          // dont do if already uncovered
          if  (boardStatus[y][x] == UNCOVERED) return;
+         if  (boardStatus[y][x] == MARKED) markedSpacesCount--;
          boardStatus[y][x] = UNCOVERED;
          if (boardData[y][x] == 0 ){
              if (cordOnBoard(x-1, y-1)) expandIf0(x - 1, y - 1);
@@ -176,6 +173,7 @@ public class Board {
         if (testingWhitGivenBoard){
             setupBoard(testingBombs,bombAmount);
         }
+        markedSpacesCount = 0;
     }
 
     // käytetty testaamiseen
@@ -287,7 +285,7 @@ public class Board {
      * @param y y-cordinate
      * @return   true if cord is on board, othervise false
      */
-    protected boolean cordOnBoard(int x, int y){
+    public boolean cordOnBoard(int x, int y){
         if (y >= 0 && x >= 0 && x < boardSize && y < boardSize) return true;
         return false;
     }

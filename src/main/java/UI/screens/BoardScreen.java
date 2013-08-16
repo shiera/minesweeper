@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import UI.*;
 import minesweeper.GameLogic;
 
+import static UI.TileAppearence.*;
 import static minesweeper.BoardStatus.*;
 
 
@@ -38,6 +39,15 @@ public class BoardScreen extends Screen{
         super(game, frame);
     }
 
+    @Override
+    public int getScreenWidth() {
+        return (gameLogic.getBoard().getBoardSize()*tileSize) + 5*tileSize;
+    }
+
+    @Override
+    public int getScreenHeight() {
+        return (gameLogic.getBoard().getBoardSize()*tileSize) + 5*tileSize;
+    }
 
     /**
      * do when mouse was clicked
@@ -116,11 +126,19 @@ public class BoardScreen extends Screen{
         int lastCoordinateOfBoardX = (gameLogic.getBoard().getBoardSize()*tileSize)+ xBoardOrigoCord;
         int lastCoordinateOfBoardY = (gameLogic.getBoard().getBoardSize()*tileSize)+ yBoardOrigoCord;
         // draw board
-        for (int y = 0; y < gameLogic.getBoard().getBoardSize(); y++) {
-            for (int x = 0; x < gameLogic.getBoard().getBoardSize() ; x++) {
-                gameLogic.getBoard().getTileAppearance(x, y).drawImage(x,y,g2, tileSize, xBoardOrigoCord, yBoardOrigoCord);
+        for (int tileY = -yBoardOrigoCord/tileSize; tileY < getHeight()/tileSize; tileY++) {
+            for (int tileX = -xBoardOrigoCord/tileSize; tileX < getWidth()/tileSize ; tileX++) {
+                if (gameLogic.getBoard().cordOnBoard(tileX, tileY)) {
+                    gameLogic.getBoard().getTileAppearance(tileX, tileY).drawImage(tileX,tileY,g2, tileSize, xBoardOrigoCord, yBoardOrigoCord);
+                } else{
+                    OUTSIDE.drawImage(tileX, tileY, g2, tileSize, xBoardOrigoCord, yBoardOrigoCord);
+                }
+
             }
         }
+
+        // ----------
+        g2.setColor(Color.WHITE);
         g2.drawString("Flags left: " + gameLogic.flagsLeft(), lastCoordinateOfBoardX / 2, lastCoordinateOfBoardY + tileSize);
         // draw if flags used
         if (  gameLogic.flagsLeft() == 0){
@@ -142,7 +160,7 @@ public class BoardScreen extends Screen{
      */
     @Override
     protected void makeButtons(BaseFrame frame){
-        checkButton = new UI.Button( frame,"grass.jpg", gameLogic.getBoard().getBoardSize()/2*tileSize, gameLogic.getBoard().getBoardSize()*tileSize+ 2*tileSize, new ButtonHandler() {
+        checkButton = new UI.Button( frame,"grass1.png", gameLogic.getBoard().getBoardSize()/2*tileSize, gameLogic.getBoard().getBoardSize()*tileSize+ 2*tileSize, new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
                 gameLogic.checkTheBoard();

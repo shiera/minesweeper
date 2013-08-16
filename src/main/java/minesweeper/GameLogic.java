@@ -1,5 +1,7 @@
 package minesweeper;
 
+import UI.TileAppearence;
+
 import java.util.Scanner;
 
 import static minesweeper.BoardStatus.*;
@@ -25,9 +27,10 @@ public class GameLogic {
      * @param bombAmount  amounts of bombs
     */
     public GameLogic(int size, int bombAmount) {
-        this.size = size;
-        this.bombAmount = bombAmount;
         board = new Board(size, bombAmount);
+        this.size = size;
+        this.bombAmount = board.getBombAmount();
+
         newGame();
     }
 
@@ -77,6 +80,7 @@ public class GameLogic {
         board.setupBoard();
         playing = true;
         hasWon = false;
+        TileAppearence.setRandomGameSeed();
     }
 
 
@@ -87,8 +91,9 @@ public class GameLogic {
      */
     public void changeOptions(int size, int bombAmount){
         this.size = size;
-        this. bombAmount = bombAmount;
+        this.bombAmount = bombAmount;
         board = new Board(size, bombAmount);
+        this.bombAmount = board.getBombAmount();
         newGame();
     }
 

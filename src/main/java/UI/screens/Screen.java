@@ -12,7 +12,7 @@ import java.awt.event.MouseMotionListener;
 /**
  * Author: Shiera
  */
-abstract class Screen extends JPanel {
+abstract public class Screen extends JPanel {
     public static final int LEFTBUTTON = MouseEvent.BUTTON1;
     public static final int RIGHTBUTTON= MouseEvent.BUTTON3;
 
@@ -25,6 +25,14 @@ abstract class Screen extends JPanel {
         makeButtons(frame);
         addMouse(game);
 
+    }
+
+    public int getScreenWidth(){
+        return 800;
+    }
+
+    public int getScreenHeight(){
+        return 800;
     }
 
     /**
@@ -69,7 +77,9 @@ abstract class Screen extends JPanel {
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                //To change body of implemented methods use File | Settings | File Templates.
+                if (mouseMove(e, game)){
+                    repaint();
+                }
             }
             @Override
             public void mouseMoved(MouseEvent e) {
@@ -83,11 +93,13 @@ abstract class Screen extends JPanel {
         addMouseListener(new MouseAdapter() {
 
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseReleased(MouseEvent e) {
                 whenClicked(e, game);
                 repaint();
 
             }
+
+
         });
     }
 
