@@ -1,6 +1,11 @@
 package UI;
 
 
+import UI.secreens.BoardScreen;
+import UI.secreens.MenuScreen;
+import UI.secreens.OptionScreen;
+import minesweeper.GameLogic;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,28 +15,62 @@ import java.awt.*;
 public class BaseFrame extends JFrame {
 
     private static final int DEFAULT_WIDTH = 800;
-    private static final int DEFAULT_HEIGHT = 600;
+    private static final int DEFAULT_HEIGHT = 800;
+    private JComponent menu;
+    private JComponent gameBoard;
+    private JComponent options;
+    private GameLogic logic;
 
-    public BaseFrame() {
-        this("", null);
+    public BaseFrame (String title){
+        this(title, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     }
 
-    public BaseFrame(String title) {
-        this(title, null);
-    }
 
-    public BaseFrame(String title, JComponent content) {
-        this(title, content, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-    }
 
-    public BaseFrame(String title, JComponent content, int initialWidth, int initialHeight) {
+    public BaseFrame(String title,  int initialWidth, int initialHeight) {
         setTitle(title);
-        if (content != null) setContentPane(content);
+        makePanels();
+        JComponent content = menu;
+        if (content != null) {
+            setContentPane(content);
+        }
         setPreferredSize(new Dimension(initialWidth, initialHeight));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
 
         pack();
         setVisible(true);
+    }
+
+
+
+
+
+    public void changeToGame(){
+        logic.newGame();
+        changeScreen(gameBoard);
+    }
+
+    public void changeToMenu(){
+        changeScreen(menu);
+    }
+
+    public void changeToOptions(){
+        changeScreen(options);
+    }
+
+    private void changeScreen(JComponent pane) {
+        setContentPane(pane);
+        pack();
+        repaint();
+    }
+
+
+
+    private void makePanels(){
+        menu = new MenuScreen(this);
+        logic =  new GameLogic(5,5);
+        gameBoard = new BoardScreen(logic, this);
+        options = new OptionScreen(this, logic);
     }
 }

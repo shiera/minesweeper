@@ -1,10 +1,8 @@
 package minesweeper;
 
-import javax.imageio.ImageIO;
+import UI.Picture;
+
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public enum TileAppearence {
 
@@ -23,36 +21,24 @@ public enum TileAppearence {
     NUMBER8("number8.png", true),
     NUMBER9("number9.png", true);
 
-    private String imageName;
+
     private boolean isANumber;
-    private BufferedImage image;
-    private BufferedImage dirt1;
-    private BufferedImage grass1;
+    private Picture picture;
+    private Picture dirt1;
+    private Picture grass1;
 
 
     private TileAppearence(String imageName, boolean aNumberOrBomb) {
-        this.imageName = imageName;
         isANumber = aNumberOrBomb;
         // loading images
-        image = loadImage(imageName);
-        dirt1 = loadImage("dirt.jpg");
-        grass1 = loadImage("grass.jpg");
+        picture = new Picture(imageName);
+        dirt1 = new Picture("dirt.jpg");
+        grass1 = new Picture("grass.jpg");
 
 
     }
 
-    private BufferedImage loadImage(String imageName){
-        BufferedImage loadedImage = null;
-        try {
-            loadedImage = ImageIO.read(new File("src//pictures//" + imageName ));
 
-        } catch (IOException ex) {
-            System.out.println(imageName + " not found");
-
-        }
-
-        return loadedImage;
-    }
 
     // todo random kahden kuvan välillä
     /**
@@ -63,13 +49,13 @@ public enum TileAppearence {
      */
     public void drawImage(int x, int y, Graphics2D g2, int tileSize, int boardOrigoX, int boardOrigoY){
         if (isANumber  ){
-            g2.drawImage(dirt1, x*tileSize + boardOrigoX, y*tileSize + boardOrigoY, null);
+            dirt1.draw(g2, x * tileSize + boardOrigoX, y * tileSize + boardOrigoY);
         }
 
         if (this ==FLAG){
-            g2.drawImage(grass1,x*tileSize + boardOrigoX, y*tileSize + boardOrigoY, null);
+            grass1.draw(g2, x * tileSize + boardOrigoX, y * tileSize + boardOrigoY);
         }
-        g2.drawImage(image,x*tileSize + boardOrigoX, y*tileSize + boardOrigoY, null);
+        picture.draw(g2, x * tileSize + boardOrigoX, y * tileSize + boardOrigoY);
     }
 
 

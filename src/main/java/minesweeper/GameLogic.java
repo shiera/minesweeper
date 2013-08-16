@@ -81,6 +81,22 @@ public class GameLogic {
 
 
     /**
+     * change size and bombAmount OF Board
+     * @param size
+     * @param bombAmount
+     */
+    public void changeOptions(int size, int bombAmount){
+        this.size = size;
+        this. bombAmount = bombAmount;
+        board = new Board(size, bombAmount);
+        newGame();
+    }
+
+
+
+
+
+    /**
      * do next move on board
      * @param x cordinate of board
      * @param y cordinate of board

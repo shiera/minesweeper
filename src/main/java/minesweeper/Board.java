@@ -24,10 +24,12 @@ public class Board {
     private boolean testingWhitGivenBoard;
     private int[][] testingBombs = null;
 
-    public Board(int boardSize, int bombAmount) {
+    Board(int boardSize, int bombAmount) {
         this.boardSize = boardSize;
         this.bombAmount = bombAmount;
-        // TODO bombamount can't be bigger than  boardSize*boardSize/4
+        if (bombAmount > (boardSize*boardSize)/4){
+            bombAmount = (boardSize*boardSize)/4;
+        }
         boardData = new int[boardSize][boardSize];
         boardStatus = new BoardStatus[boardSize][boardSize];
         setupBoard();
@@ -36,11 +38,7 @@ public class Board {
     }
 
     protected Board(int boardSize, int bombAmount, int[][] bombs){
-        this.boardSize = boardSize;
-        this.bombAmount = bombAmount;
-        // TODO bombamount can't be bigger than  boardSize*boardSize/4
-        boardData = new int[boardSize][boardSize];
-        boardStatus = new BoardStatus[boardSize][boardSize];
+        this(boardSize, bombAmount);
         testingWhitGivenBoard = true;
         testingBombs = bombs;
         setupBoard();
@@ -61,7 +59,13 @@ public class Board {
 
     /**
      *
-     * @return the amount of bombs, that will be at the board (afterSetup)
+     * @ this.boardSize = boardSize;
+        this.bombAmount = bombAmount;
+        if (bombAmount > (boardSize*boardSize)/4){
+            bombAmount = (boardSize*boardSize)/4;
+        }
+        boardData = new int[boardSize][boardSize];
+        boardStatus = new BoardStatus[boardSize][boardSize];return the amount of bombs, that will be at the board (afterSetup)
      */
     public int getBombAmount() {
         return bombAmount;
@@ -82,6 +86,7 @@ public class Board {
     public int getMarkedSpacesCount() {
         return markedSpacesCount;
     }
+
 
     /**
      * sets a new status to 1 cordinate of the statusboard

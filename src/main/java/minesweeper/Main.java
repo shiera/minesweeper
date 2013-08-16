@@ -2,9 +2,6 @@ package minesweeper;
 
 
 import UI.BaseFrame;
-import UI.BoardPanel;
-
-import static minesweeper.BoardStatus.*;
 
 /**
  *
@@ -13,10 +10,8 @@ import static minesweeper.BoardStatus.*;
 public class Main {
 
     public static void main(String[] args) {
-        GameLogic game = new GameLogic(20, 30);
-        game.newGame();
-        BoardPanel panel = new BoardPanel(game);
-        new BaseFrame("minesweeper", panel );
+
+        new BaseFrame("minesweeper" );
 
 
 
