@@ -1,6 +1,6 @@
 package minesweeper;
 
-import UI.TileAppearence;
+import UI.TileAppearance;
 
 import static minesweeper.BoardStatus.*;
 
@@ -111,7 +111,7 @@ public class GameLogic {
         playing = true;
         hasWon = false;
         // so the board wouldn't look the same every game
-        TileAppearence.setRandomGameSeed();
+        TileAppearance.setRandomGameSeed();
     }
 
 

@@ -9,6 +9,8 @@ import java.awt.event.MouseEvent;
 
 /**
  * Author: Shiera
+ * extends Screen
+ * shows menu
  */
 public class MenuScreen extends Screen {
 
@@ -20,21 +22,36 @@ public class MenuScreen extends Screen {
     Picture logo = new Picture("logo.png");
     Picture menuLogo = new Picture("menuLogo.png");
 
+
+    /**
+     * Constructor that calls the default constructor of screen
+     * @param game used GameLogic
+     * @param frame  used frame
+     */
     public MenuScreen(GameLogic game, BaseFrame frame) {
         super(game, frame);
     }
 
-
+    /**
+     * @return returns the default width of the screen
+     */
     @Override
     public int getScreenWidth() {
         return 288;
     }
 
+    /**
+     * @return returns the default height of the screen
+     */
     @Override
     public int getScreenHeight() {
         return 400;
     }
 
+    /**
+     * checks if buttons was clicked when mouse clicked
+     * @param e
+     */
     @Override
     protected void whenClicked(MouseEvent e) {
         int  posX = e.getX();
@@ -46,9 +63,11 @@ public class MenuScreen extends Screen {
 
     }
 
-
+    /**
+     * paints menuScreen
+     * @param g2 Graphics2D
+     */
     protected void paintScreen(Graphics2D g2) {
-
         paintBackground(g2);
         logo.draw(g2, 64, 0);
         menuLogo.draw(g2, 64, 64);
@@ -58,8 +77,10 @@ public class MenuScreen extends Screen {
     }
 
 
-
-
+    /**
+     * makes all the buttons in the game
+     * @param frame  used BaseFrame
+     */
     @Override
     protected void makeButtons(BaseFrame frame){
         startButton = new Button(frame, "start.png", 96, 160, new ButtonHandler() {

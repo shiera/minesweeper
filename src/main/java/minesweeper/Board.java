@@ -1,11 +1,11 @@
 package minesweeper;
 
-import UI.TileAppearence;
+import UI.TileAppearance;
 
 import java.util.Random;
 
 import static minesweeper.BoardStatus.*;
-import static UI.TileAppearence.*;
+import static UI.TileAppearance.*;
 
 /**
  * Keeps track of the status of the gameBoard
@@ -350,10 +350,10 @@ public class Board {
      * @param y y-coordinate of wanted tile
      * @return  enum painting tile in UI
      */
-    public TileAppearence getTileAppearance(int x, int y){
+    public TileAppearance getTileAppearance(int x, int y){
         BoardStatus status = getStatusXY(x,y);
         int data = getDataXY(x, y);
-        TileAppearence tileStatus = GRASS;
+        TileAppearance tileStatus = GRASS;
         if (status == COVERED) tileStatus = GRASS;
         else if (status == MARKED)  tileStatus = FLAG;
         else if (data == -1) tileStatus = BOMBFIELD;

@@ -7,7 +7,7 @@ package minesweeper;
 
  */
 
-import UI.TileAppearence;
+import UI.TileAppearance;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -159,13 +159,13 @@ public class BoardTest {
     @Test
     public void getTileStatusTest(){
         board.setupBoard(makeTestBoard(), 3);
-        assertEquals("", TileAppearence.GRASS, board.getTileAppearance(0, 0));
+        assertEquals("", TileAppearance.GRASS, board.getTileAppearance(0, 0));
         board.setStatusXY(0,0, MARKED );
-        assertEquals("", TileAppearence.FLAG, board.getTileAppearance(0, 0));
+        assertEquals("", TileAppearance.FLAG, board.getTileAppearance(0, 0));
         board.setStatusXY(2,0, UNCOVERED);
-        assertEquals("", TileAppearence.BOMBFIELD, board.getTileAppearance(2, 0));
+        assertEquals("", TileAppearance.BOMBFIELD, board.getTileAppearance(2, 0));
         board.setStatusXY(1,1, UNCOVERED);
-        assertEquals("", TileAppearence.NUMBER3, board.getTileAppearance(1, 1));
+        assertEquals("", TileAppearance.NUMBER3, board.getTileAppearance(1, 1));
     }
 
 

@@ -10,11 +10,10 @@ import java.util.ArrayList;
 
 /**
  * Author: Shiera
+ * extends Screen
+ * shows and takes options
  */
 public class OptionScreen extends Screen{
-
-
-
 
     private Button largeGame;
     private Button mediumGame;
@@ -29,34 +28,51 @@ public class OptionScreen extends Screen{
 
     private  ArrayList<Button> buttons;
 
-
+    /**
+     * Constructor that calls the default constructor of screen
+     * also toggles on the buttons for the default settings
+     * @param game used GameLogic
+     * @param frame  used frame
+     */
     public OptionScreen(GameLogic game, BaseFrame frame) {
         super(game, frame);
         smallGame.toggleOn();
         easyGame.toggleOn();
     }
 
+    /**
+     * @return returns the default width of the screen
+     */
     @Override
     public int getScreenWidth() {
         return 288;
     }
 
+    /**
+     * @return returns the default height of the screen
+     */
     @Override
     public int getScreenHeight() {
         return 400;
     }
 
+    /**
+     * checks if buttons was clicked when mouse clicked
+     * @param e
+     */
     @Override
     protected void whenClicked(MouseEvent e) {
         int  posX = e.getX();
         int posY = e.getY();
-
         for (Button button : buttons) {
              button.ifClicked(posX, posY);
         }
     }
 
-
+    /**
+     *  paints option screen
+     * @param g2 Graphics2D
+     */
     @Override
     protected void paintScreen(Graphics2D g2) {
         paintBackground(g2);
@@ -73,8 +89,10 @@ public class OptionScreen extends Screen{
     }
 
 
-
-
+    /**
+     * makes buttons and adds them to ArrayList<Button> buttons
+     * @param frame  used BaseFrame
+     */
     @Override
     protected void makeButtons(BaseFrame frame){
         buttons = new ArrayList<Button>();
@@ -90,7 +108,11 @@ public class OptionScreen extends Screen{
 
     }
 
-
+    /**
+     * makes all boardSize toggle Buttons
+     * buttons handle changing of board size
+     * @param frame
+     */
     private void makeBoardSizeButton(BaseFrame frame){
         hugeGame = new Button(frame, "hugeUnToggle.png","hugeToggle.png", 32, 318, new ButtonHandler() {
             @Override
@@ -98,7 +120,7 @@ public class OptionScreen extends Screen{
                 gameLogic.setSize(40,20);
                 hugeGame.toggleOn(smallGame, mediumGame, largeGame);
             }
-
+                                                                                   of board size
         });
         buttons.add(hugeGame);
         largeGame = new Button(frame, "largeUnToggle.png","largeToggle.png", 32, 254, new ButtonHandler() {
@@ -130,7 +152,11 @@ public class OptionScreen extends Screen{
     }
 
 
-
+    /**
+     * makes all bombAmount toggle buttons
+     * buttons handle changing bombAmount(percentage)
+     * @param frame
+     */
     private void makeBombPercentButton(BaseFrame frame){
         easyGame = new Button(frame, "easyUnToggle.png","easyToggle.png", 160, 128, new ButtonHandler() {
             @Override
