@@ -1,12 +1,12 @@
 package UI.screens;
 
 import UI.*;
+import UI.Button;
 import minesweeper.GameLogic;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  * Author: Shiera
@@ -16,35 +16,59 @@ public class OptionScreen extends Screen{
 
 
 
-    private UI.Button bigGame;
-    private UI.Button menuButton;
+    private Button largeGame;
+    private Button mediumGame;
+    private Button smallGame;
+    private Button menuButton;
+    private Button hugeGame;
+    private Button easyGame;
+    private Button hardGame;
+    private Button nightmareGame;
 
+    Picture optionsLogo = new Picture("optionsLogo.png");
+
+    private  ArrayList<Button> buttons;
 
 
     public OptionScreen(GameLogic game, BaseFrame frame) {
         super(game, frame);
+        smallGame.toggleOn();
+        easyGame.toggleOn();
     }
 
+    @Override
+    public int getScreenWidth() {
+        return 288;
+    }
 
     @Override
-    protected void whenClicked(MouseEvent e, GameLogic game) {
+    public int getScreenHeight() {
+        return 400;
+    }
+
+    @Override
+    protected void whenClicked(MouseEvent e) {
         int  posX = e.getX();
         int posY = e.getY();
 
-
-        int mouseButton = e.getButton();
-
-        // TODO all clickstuff
-
-        bigGame.ifClicked(posX, posY);
-        menuButton.ifClicked(posX, posY);
+        for (Button button : buttons) {
+             button.ifClicked(posX, posY);
+        }
     }
 
 
     @Override
     protected void paintScreen(Graphics2D g2) {
-        bigGame.draw(g2);
-        menuButton.draw(g2);
+        paintBackground(g2);
+        optionsLogo.draw(g2, 64, 32);
+        g2.setColor(Color.WHITE);
+        g2.drawString("change game Size ", 32, 105);
+        g2.drawString("change amount ", 160, 105);
+        g2.drawString("of bombs", 160, 120);
+
+        for (Button button : buttons) {
+            button.draw(g2);
+        }
 
     }
 
@@ -53,19 +77,88 @@ public class OptionScreen extends Screen{
 
     @Override
     protected void makeButtons(BaseFrame frame){
-        bigGame = new UI.Button(frame, "test.jpg", 0, 0, new ButtonHandler() {
-            @Override
-            public void onButtonClick(BaseFrame frame) {
-                gameLogic.changeOptions(20, 20);
-                System.out.println("change");
-            }
-        });
-        menuButton = new UI.Button( frame, "menu.png", 100, 0, new ButtonHandler() {
+        buttons = new ArrayList<Button>();
+        menuButton = new Button( frame, "menu.png", 0, 0, new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
                 frame.changeToMenu();
             }
         });
+        buttons.add(menuButton);
+        makeBombPercentButton(frame);
+        makeBoardSizeButton(frame);
+
+    }
+
+
+    private void makeBoardSizeButton(BaseFrame frame){
+        hugeGame = new Button(frame, "hugeUnToggle.png","hugeToggle.png", 32, 318, new ButtonHandler() {
+            @Override
+            public void onButtonClick(BaseFrame frame) {
+                gameLogic.setSize(40,20);
+                hugeGame.toggleOn(smallGame, mediumGame, largeGame);
+            }
+
+        });
+        buttons.add(hugeGame);
+        largeGame = new Button(frame, "largeUnToggle.png","largeToggle.png", 32, 254, new ButtonHandler() {
+            @Override
+            public void onButtonClick(BaseFrame frame) {
+                gameLogic.setSize(20, 20);
+                largeGame.toggleOn(smallGame, mediumGame, hugeGame);
+            }
+
+        });
+        buttons.add(largeGame);
+        mediumGame = new Button(frame, "mediumUnToggle.png", "mediumToggle.png", 32, 192, new ButtonHandler() {
+            @Override
+            public void onButtonClick(BaseFrame frame) {
+                gameLogic.setSize(12, 12);
+                mediumGame.toggleOn(smallGame, largeGame, hugeGame);
+            }
+        });
+        buttons.add(mediumGame);
+        smallGame = new Button(frame, "smallUnToggle.png", "smallToggle.png", 32, 128, new ButtonHandler() {
+            @Override
+            public void onButtonClick(BaseFrame frame) {
+                gameLogic.setSize(5,5);
+                smallGame.toggleOn(mediumGame, largeGame, hugeGame);
+
+            }
+        });
+        buttons.add(smallGame);
+    }
+
+
+
+    private void makeBombPercentButton(BaseFrame frame){
+        easyGame = new Button(frame, "easyUnToggle.png","easyToggle.png", 160, 128, new ButtonHandler() {
+            @Override
+            public void onButtonClick(BaseFrame frame) {
+                gameLogic.setBombAmountPercent(12);
+                easyGame.toggleOn(hardGame, nightmareGame);
+            }
+
+        });
+        buttons.add(easyGame);
+        hardGame = new Button(frame, "hardUnToggle.png", "hardToggle.png", 160, 192, new ButtonHandler() {
+            @Override
+            public void onButtonClick(BaseFrame frame) {
+                gameLogic.setBombAmountPercent(18);
+                hardGame.toggleOn(easyGame, nightmareGame);
+            }
+        });
+        buttons.add(hardGame);
+        nightmareGame = new Button(frame, "nightmareUnToggle.png", "nightmareToggle.png", 160, 254, new ButtonHandler() {
+            @Override
+            public void onButtonClick(BaseFrame frame) {
+                gameLogic.setBombAmountPercent(25);
+                nightmareGame.toggleOn(hardGame, easyGame);
+
+            }
+        });
+        buttons.add(nightmareGame);
+
     }
 
 }

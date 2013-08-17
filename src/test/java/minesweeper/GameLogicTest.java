@@ -48,6 +48,34 @@ public class GameLogicTest {
         assertFalse("gameLogic should be won and no more moves should be made", gameLogic.doMove(0,0,UNCOVERED));
     }
 
+    @Test
+    public void bombAmountTest(){
+        assertEquals("translate from bombAmount to bombPercent is wrong bombamountpercent is " +gameLogic.getBombAmountPercent()
+                ,bombsInTest, gameLogic.getBombAmount());
+
+    }
+
+
+    @Test
+    public void setSizeTest(){
+        double percent = gameLogic.getBombAmountPercent();
+        gameLogic.setSize(testBoardSize*2,testBoardSize);
+        assertEquals("board width wrong after change size", testBoardSize*2,gameLogic.getBoard().getBoardWidth());
+        assertEquals("board height wrong after change size", testBoardSize ,gameLogic.getBoard().getBoardHeight());
+        assertEquals("board should have same bombAmountPercent after changing size",  percent, gameLogic.getBombAmountPercent(), 0.1);
+        assertEquals("board should have double amount of bombs (from gamelogic)", bombsInTest*2, gameLogic.getBombAmount());
+        assertEquals("board should have double amount of bombs (from board)", bombsInTest*2, gameLogic.getBoard().getBombAmount());
+    }
+
+
+    @Test
+    public void  setBombAmountPercentTest(){
+        gameLogic.setBombAmountPercent(11.12);
+        assertEquals("board should have 1 bomb (from gamelogic)", 1, gameLogic.getBombAmount());
+        assertEquals("board should have 1 bomb (from board)", 1, gameLogic.getBoard().getBombAmount());
+        assertEquals("board should have new bombAmountPercent",  11.12, gameLogic.getBombAmountPercent(), 0.1);
+    }
+
 
 
 

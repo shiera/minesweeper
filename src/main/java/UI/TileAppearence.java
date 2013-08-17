@@ -36,7 +36,7 @@ public enum TileAppearence {
         isANumber = aNumberOrBomb;
         // loading images
         for (String imageName : imageNames) {
-             pictures.add(new Picture(imageName));
+             pictures.add(new Picture("tilePictures//" + imageName));
         }
 
 

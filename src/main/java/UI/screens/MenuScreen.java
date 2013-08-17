@@ -1,11 +1,10 @@
 package UI.screens;
 
 import UI.*;
+import UI.Button;
 import minesweeper.GameLogic;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 /**
@@ -14,8 +13,12 @@ import java.awt.event.MouseEvent;
 public class MenuScreen extends Screen {
 
 
-    private UI.Button startButton;
-    private UI.Button optionButton;
+    private Button startButton;
+    private Button optionButton;
+    private Button highScoreButton;
+
+    Picture logo = new Picture("logo.png");
+    Picture menuLogo = new Picture("menuLogo.png");
 
     public MenuScreen(GameLogic game, BaseFrame frame) {
         super(game, frame);
@@ -23,23 +26,35 @@ public class MenuScreen extends Screen {
 
 
     @Override
-    protected void whenClicked(MouseEvent e, GameLogic game) {
+    public int getScreenWidth() {
+        return 288;
+    }
+
+    @Override
+    public int getScreenHeight() {
+        return 400;
+    }
+
+    @Override
+    protected void whenClicked(MouseEvent e) {
         int  posX = e.getX();
         int posY = e.getY();
 
-
-        int mouseButton = e.getButton();
         startButton.ifClicked(posX, posY);
         optionButton.ifClicked(posX, posY);
-        // TODO all clickstuff
+        highScoreButton.ifClicked(posX, posY);
+
     }
 
 
     protected void paintScreen(Graphics2D g2) {
-        // draw
+
+        paintBackground(g2);
+        logo.draw(g2, 64, 0);
+        menuLogo.draw(g2, 64, 64);
         startButton.draw(g2);
         optionButton.draw(g2);
-
+        highScoreButton.draw(g2);
     }
 
 
@@ -47,18 +62,24 @@ public class MenuScreen extends Screen {
 
     @Override
     protected void makeButtons(BaseFrame frame){
-           startButton = new UI.Button(frame, "test.jpg", 10, 10, new ButtonHandler() {
+        startButton = new Button(frame, "start.png", 96, 160, new ButtonHandler() {
                @Override
                public void onButtonClick(BaseFrame frame) {
                      frame.changeToGame();
                    System.out.println("change");
                }
            });
-        optionButton = new UI.Button(frame, "options.png", 100, 10, new ButtonHandler() {
+        optionButton = new Button(frame, "options.png", 96, 224, new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
                 frame.changeToOptions();
                 System.out.println("change");
+            }
+        });
+        highScoreButton = new Button(frame,"highScore.png", 96, 288, new ButtonHandler() {
+            @Override
+            public void onButtonClick(BaseFrame frame) {
+                //TODO HIGHSCORE
             }
         });
     }

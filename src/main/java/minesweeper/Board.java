@@ -14,7 +14,9 @@ import static UI.TileAppearence.*;
 public class Board {
 
     public static final int BOMB = -1;
-    private int boardSize;
+
+    private int boardWidth;
+    private int boardHeight;
     private int bombAmount;
     private int markedSpacesCount = 0;
     // the board whit -1 for bomb and numbers 0-9 for bombs close
@@ -26,28 +28,38 @@ public class Board {
     private boolean testingWhitGivenBoard;
     private int[][] testingBombs = null;
 
-    Board(int boardSize, int bombAmount) {
-        this.boardSize = boardSize;
+    Board(int boardWidth, int boardHeight, int bombAmount) {
+        this.boardWidth = boardWidth;
+        this.boardHeight = boardHeight;
         this.bombAmount = bombAmount;
-        if (bombAmount > (boardSize*boardSize)/4){
-            this.bombAmount = (boardSize*boardSize)/4;
+        if (bombAmount > (boardHeight*boardWidth)/3){
+            this.bombAmount = (boardHeight*boardWidth)/3;
         }
-        boardData = new int[boardSize][boardSize];
-        boardStatus = new BoardStatus[boardSize][boardSize];
+        boardData = new int[boardHeight][boardWidth];
+        boardStatus = new BoardStatus[boardHeight][boardWidth];
         setupBoard();
         testingWhitGivenBoard = false;
 
     }
 
+
+    protected Board(int size, int bombAmount){
+         this(size, size, bombAmount);
+    }
+
     protected Board(int boardSize, int bombAmount, int[][] bombs){
-        this(boardSize, bombAmount);
+        this(boardSize, boardSize, bombAmount);
         testingWhitGivenBoard = true;
         testingBombs = bombs;
         setupBoard();
     }
 
-    public int getBoardSize() {
-        return boardSize;
+    public int getBoardHeight() {
+        return boardHeight;
+    }
+
+    public int getBoardWidth() {
+        return boardWidth;
     }
 
     /**
@@ -194,8 +206,8 @@ public class Board {
      * covers the whole board ( all cords to covered in int[][] boardStatus)
      */
     private void coverBoard(){
-        for (int y = 0; y < boardSize; y++) {
-            for (int x = 0; x < boardSize; x++) {
+        for (int y = 0; y < boardHeight; y++) {
+            for (int x = 0; x < boardWidth; x++) {
                 boardStatus[y][x] = COVERED;
             }
         }
@@ -205,8 +217,8 @@ public class Board {
      * uncovers board
      */
     void uncoverBoard(){
-        for (int y = 0; y < boardSize; y++) {
-            for (int x = 0; x < boardSize; x++) {
+        for (int y = 0; y < boardHeight; y++) {
+            for (int x = 0; x < boardWidth; x++) {
                 boardStatus[y][x] = UNCOVERED;
             }
         }
@@ -216,8 +228,8 @@ public class Board {
      * clears board (sets all cordinates in boardData[][] to 0
      */
     protected void clearBoard(){
-        for (int y = 0; y < boardSize; y++) {
-            for (int x = 0; x < boardSize; x++) {
+        for (int y = 0; y < boardHeight; y++) {
+            for (int x = 0; x < boardWidth; x++) {
                 boardData[y][x] = 0;
             }
         }
@@ -231,15 +243,15 @@ public class Board {
      private void placeBombs(){
         Random randomPlace = new Random();
         for (int i = 0; i <bombAmount ; i++) {
-             int x = randomPlace.nextInt(boardSize);
-             int y = randomPlace.nextInt(boardSize);
+             int x = randomPlace.nextInt(boardWidth);
+             int y = randomPlace.nextInt(boardHeight);
              while (boardData[y][x] == BOMB){
                  x ++;
-                 if (x >= boardSize){
+                 if (x >= boardWidth){
                      x = 0;
                      y ++;
                  }
-                 if (y >= boardSize){
+                 if (y >= boardHeight){
                      y = 0;
                  }
              }
@@ -254,8 +266,8 @@ public class Board {
      *places the numbers on the board
      */
     private void placeNumbers(){
-        for (int y = 0; y < boardSize; y++) {
-            for (int x = 0; x < boardSize; x++) {
+        for (int y = 0; y < boardHeight; y++) {
+            for (int x = 0; x < boardWidth; x++) {
                 if (boardData[y][x] != BOMB){
                     boardData[y][x] =  bombsClose(x,y);
                 }
@@ -286,7 +298,7 @@ public class Board {
      * @return   true if cord is on board, othervise false
      */
     public boolean cordOnBoard(int x, int y){
-        if (y >= 0 && x >= 0 && x < boardSize && y < boardSize) return true;
+        if (y >= 0 && x >= 0 && x < boardWidth && y < boardHeight) return true;
         return false;
     }
 
@@ -313,8 +325,8 @@ public class Board {
      * Prints the board not hidden
      */
     public void printShownBoard(){
-        for (int y = 0; y < boardSize; y++) {
-            for (int x = 0; x < boardSize; x++) {
+        for (int y = 0; y < boardHeight; y++) {
+            for (int x = 0; x < boardHeight; x++) {
                 if (boardData[y][x] == BOMB)System.out.print("* ");
                 else System.out.print(boardData[y][x] + " ");
             }
@@ -326,8 +338,8 @@ public class Board {
      * prints the board, using statusInfoa from boardStatus[][] (* if bomb, X if marked, _ if uncovered )
      */
     public void printBoard(){
-        for (int y = 0; y < boardSize; y++) {
-            for (int x = 0; x < boardSize; x++) {
+        for (int y = 0; y < boardHeight; y++) {
+            for (int x = 0; x < boardWidth; x++) {
                 switch (boardStatus[y][x]) {
 
                     case UNCOVERED:
@@ -354,8 +366,8 @@ public class Board {
         if (markedSpacesCount < bombAmount){
             return false;
         }
-        for (int y = 0; y < boardSize; y++) {
-            for (int x = 0; x < boardSize; x++) {
+        for (int y = 0; y < boardHeight; y++) {
+            for (int x = 0; x < boardWidth; x++) {
                 if (boardData[y][x] == BOMB && (boardStatus[y][x] != MARKED )){
                     return false;
                 }

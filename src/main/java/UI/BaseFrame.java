@@ -13,29 +13,27 @@ import java.awt.*;
  */
 public class BaseFrame extends JFrame {
 
-    private static final int DEFAULT_WIDTH = 800;
-    private static final int DEFAULT_HEIGHT = 800;
     private Screen menu;
     private Screen gameBoard;
     private Screen options;
-    private GameLogic logic;
-
-    public BaseFrame (String title){
-        this(title, DEFAULT_WIDTH, DEFAULT_HEIGHT);
-    }
+    private final GameLogic logic;
 
 
 
-    public BaseFrame(String title,  int initialWidth, int initialHeight) {
+
+
+    public BaseFrame(String title) {
+        logic =  new GameLogic(6,12);
         setTitle(title);
         makePanels();
+        int initialWidth = menu.getScreenWidth();
+        int initialHeight = menu.getScreenHeight();
         JComponent content = menu;
         if (content != null) {
             setContentPane(content);
         }
         setPreferredSize(new Dimension(initialWidth, initialHeight));
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
 
         pack();
         setVisible(true);
@@ -45,16 +43,17 @@ public class BaseFrame extends JFrame {
 
 
 
+
+
+
     public void changeToGame(){
         logic.newGame();
-        setPreferredSize(new Dimension(gameBoard.getScreenWidth(), gameBoard.getScreenHeight()));
-
         changeScreen(gameBoard);
-
 
     }
 
     public void changeToMenu(){
+
         changeScreen(menu);
     }
 
@@ -62,8 +61,10 @@ public class BaseFrame extends JFrame {
         changeScreen(options);
     }
 
-    private void changeScreen(JComponent pane) {
+    private void changeScreen(Screen pane) {
+        setPreferredSize(new Dimension(pane.getScreenWidth(), pane.getScreenHeight()));
         setContentPane(pane);
+        pane.open();
         pack();
         repaint();
     }
@@ -72,7 +73,7 @@ public class BaseFrame extends JFrame {
 
     private void makePanels(){
         menu = new MenuScreen(logic, this);
-        logic =  new GameLogic(5,500);
+
         gameBoard = new BoardScreen(logic, this);
         options = new OptionScreen(logic, this);
     }

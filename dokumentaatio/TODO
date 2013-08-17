@@ -1,9 +1,11 @@
 
-TODO boardille erillinen width ja height
+TODO fixs bug whit checkbutton, new game button and exceptions in big screens
 TODO winscreen & lostscreen
 TODO napeille kuvat
 TODO pisteet
-TODO tausta
+TODO tausta enemmän kuvia
 TODO kaikki javadocit
 TODO testejä
+TODO HIGHSCORE screen
+TODO gameboard release check
 

@@ -2,8 +2,6 @@ package minesweeper;
 
 import UI.TileAppearence;
 
-import java.util.Scanner;
-
 import static minesweeper.BoardStatus.*;
 
 /**
@@ -15,24 +13,28 @@ public class GameLogic {
 
     private final int BOMB = Board.BOMB;
     private Board board;
-    private int size;
-    private int bombAmount;
+    private double bombAmountPercent;
     private boolean playing;
     private boolean hasWon;
+    private int boardWidth;
+    private int boardHeight;
 
 
 
-    /**
-     * @param size  boardsize
-     * @param bombAmount  amounts of bombs
-    */
-    public GameLogic(int size, int bombAmount) {
-        board = new Board(size, bombAmount);
-        this.size = size;
-        this.bombAmount = board.getBombAmount();
 
-        newGame();
+    public GameLogic(int size, double bombAmountPercent) {
+        this(size, size,bombAmountPercent );
     }
+
+    public GameLogic( int boardWidth, int boardHeight,double bombAmountPercent) {
+        this.boardWidth = boardWidth;
+        this.boardHeight = boardHeight;
+        this.bombAmountPercent = bombAmountPercent;
+        board = new Board(boardWidth,boardHeight, (int)(bombAmountPercent*boardHeight*boardWidth/100));
+        newGame();
+
+    }
+
 
     /**
      * used in testing
@@ -41,10 +43,19 @@ public class GameLogic {
      * @param board    board used in test
      */
     protected GameLogic(int size, int bombAmount, Board board ){
-        this.size = size;
-        this.bombAmount = bombAmount;
+        this.boardHeight = size;
+        this.boardWidth = size;
+        this.bombAmountPercent = (double)100*bombAmount/(boardHeight*boardWidth);
         this.board = board;
         playing = true;
+    }
+
+    protected double getBombAmountPercent() {
+        return bombAmountPercent;
+    }
+
+    public int getBombAmount(){
+        return  (int)(bombAmountPercent*boardHeight*boardWidth/100);
     }
 
     public boolean isPlaying() {
@@ -68,7 +79,7 @@ public class GameLogic {
      * @return flags left unused
      */
     public int flagsLeft(){
-        return bombAmount-board.getMarkedSpacesCount();
+        return getBombAmount()-board.getMarkedSpacesCount();
     }
 
 
@@ -87,19 +98,29 @@ public class GameLogic {
     /**
      * change size and bombAmount OF Board
      * @param size
-     * @param bombAmount
      */
-    public void changeOptions(int size, int bombAmount){
-        this.size = size;
-        this.bombAmount = bombAmount;
-        board = new Board(size, bombAmount);
-        this.bombAmount = board.getBombAmount();
+    public void setSize(int size){
+        setSize(size, size);
+
+    }
+
+    /**
+     * change size and bombamount of board, takes different width than height
+     * @param boardWidth
+     * @param boardHeight
+     */
+    public void setSize(int boardWidth, int boardHeight){
+        this.boardWidth = boardWidth;
+        this.boardHeight = boardHeight;
+        board = new Board(boardWidth,boardHeight, getBombAmount());
         newGame();
     }
 
-
-
-
+    public void setBombAmountPercent(double bombAmountPercent) {
+        this.bombAmountPercent = bombAmountPercent;
+        board = new Board(boardWidth,boardHeight, getBombAmount());
+        newGame();
+    }
 
     /**
      * do next move on board
@@ -116,12 +137,12 @@ public class GameLogic {
             // testaukseen että lauta piirtyy oikein
             board.printBoard();
             // testaukseen että x ja y toimii oikein
-            if (x < 0 || x >= size ){
-                System.out.println("x cordinate " + x + "is  out of board maxX = " + (size - 1));
+            if (x < 0 || x >= boardWidth){
+                System.out.println("x cordinate " + x + "is  out of board maxX = " + (boardWidth- 1));
 
             }
-            else if (y < 0 || y >= size ){
-                System.out.println("y cordinate " + y + "is  out of board maxY = " + (size - 1));
+            else if (y < 0 || y >= boardHeight ){
+                System.out.println("y cordinate " + y + "is  out of board maxY = " + (boardHeight - 1));
             }
 
             else if (status == UNCOVERED){
@@ -148,13 +169,13 @@ public class GameLogic {
         }
     }
 
-        /**
+        /**                      changeOptions(40, 20, 80);
     * marks the given cordinate if all marcs (flags) are not used
     * @param x
     * @param y
     */
     private void mark(int x, int y){
-        if (board.getMarkedSpacesCount() >= bombAmount){
+        if (board.getMarkedSpacesCount() >= getBombAmount()){
             System.out.println("no marks left unmark something");
         }
         else board.setStatusXY(x, y, MARKED);

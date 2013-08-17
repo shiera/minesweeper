@@ -24,11 +24,20 @@ public class Picture {
      * @return  height of the image
      */
     public int getHeight(){
-        return image.getHeight();
+        if (image != null){
+            return image.getHeight();
+        }
+        return 0;
+
     }
 
     public int getWidth(){
-        return image.getWidth();
+        if (image != null){
+            return image.getWidth();
+        }
+        return 0;
+
+
     }
 
     public void draw(Graphics2D g2, int posX, int posY){
