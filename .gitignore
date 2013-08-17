@@ -8,3 +8,7 @@
 # Project files
 .idea/
 *.iml
+
+# Target
+target/
+runnableVersions/
