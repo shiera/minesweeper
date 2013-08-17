@@ -5,7 +5,7 @@ package minesweeper;
  */
 
 /**
- * Enum used in StatusBoard (Board - class)
+ * Enum used by Board for keeping track of the status of the tiles on the board
  */
 public enum BoardStatus{
     COVERED,

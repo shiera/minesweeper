@@ -4,7 +4,7 @@ package minesweeper;
 import UI.BaseFrame;
 
 /**
- *
+ * minesweeper
  * @author shiera
  */
 public class Main {

@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 import UI.*;
-import UI.Button;
 import minesweeper.GameLogic;
 
 import static UI.TileAppearence.*;
@@ -40,11 +39,11 @@ public class BoardScreen extends Screen{
     }
 
     public boolean isGameRrunning() {
-        return gameLogic.isPlaying();
+        return gameLogic.playing();
     }
 
     public boolean isGameWon(){
-        return gameLogic.isHasWon();
+        return gameLogic.hasWon();
     }
 
 

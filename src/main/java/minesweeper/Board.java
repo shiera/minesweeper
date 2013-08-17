@@ -8,9 +8,11 @@ import static minesweeper.BoardStatus.*;
 import static UI.TileAppearence.*;
 
 /**
+ * Keeps track of the status of the gameBoard
+ * has 2 int[][] arrays, 1 for tile status and 1 for boardData
+ * keeps count of bombAmount, Size and used flags
  * @author shiera
  */
-
 public class Board {
 
     public static final int BOMB = -1;
@@ -28,6 +30,12 @@ public class Board {
     private boolean testingWhitGivenBoard;
     private int[][] testingBombs = null;
 
+    /**
+     * normal constructor
+     * @param boardWidth  width (tile amount vertically) of board
+     * @param boardHeight  height (tile amount horizontally) of board
+     * @param bombAmount   amount of bombs in the board max 1/3 of the tiles at the board
+     */
     Board(int boardWidth, int boardHeight, int bombAmount) {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
@@ -42,11 +50,21 @@ public class Board {
 
     }
 
-
-    protected Board(int size, int bombAmount){
-         this(size, size, bombAmount);
+    /**
+     * constructor for test
+     * @param boardSize  width and height of the board
+     * @param bombAmount  amount of bombs on the board
+     */
+    protected Board(int boardSize, int bombAmount){
+         this(boardSize, boardSize, bombAmount);
     }
 
+    /**
+     * constructor for test whit given board
+     * @param boardSize  width and height of the board
+     * @param bombAmount amount of bombs on the board
+     * @param bombs  board whit bombs for the testBoard
+     */
     protected Board(int boardSize, int bombAmount, int[][] bombs){
         this(boardSize, boardSize, bombAmount);
         testingWhitGivenBoard = true;
@@ -54,33 +72,36 @@ public class Board {
         setupBoard();
     }
 
+    /**
+     * @return height (tile amount vertically) of the board
+     */
     public int getBoardHeight() {
         return boardHeight;
     }
 
+    /**
+     * @return width (tile amount horizontally) of the board
+     */
     public int getBoardWidth() {
         return boardWidth;
     }
 
     /**
-     *
      * @return the boardStatus in form of int[][] whit 0 for uncovered,
      *          -1 for marked bomb and 1 for uncovered
      */
-    public BoardStatus[][] getBoardStatus() {
+    protected BoardStatus[][] getBoardStatus() {
         return boardStatus;
     }
 
     /**
-     *
-     * @return the amount of bombs, that will be at the board (afterSetup)
+     * @return the amount of bombs, that will be/are at the board
      */
     public int getBombAmount() {
         return bombAmount;
     }
 
     /**
-     *
      * @return  the board in form of int[][] whit -1 for bomb and numbers 0-9 for bombs close
      */
     public int[][] getBoardData() {
@@ -88,8 +109,7 @@ public class Board {
     }
 
     /**
-     *
-     * @return  count of bombs alredy marked
+     * @return  count of marked tiles on the board
      */
     public int getMarkedSpacesCount() {
         return markedSpacesCount;
@@ -97,10 +117,10 @@ public class Board {
 
 
     /**
-     * sets a new status to 1 cordinate of the statusboard
-     * @param x cordinate for the new status
-     * @param y cordinate for the new status
-     * @param status the new status -1 for marked bomb, 0 for covered, 1 for uncoverd
+     * sets a new status to given coordinate of the statusBoard
+     * @param x coordinate for the new status
+     * @param y coordinate for the new status
+     * @param status the new status (BoardStatus)
      */
     public void setStatusXY(int x, int y, BoardStatus status){
         if (cordOnBoard(x, y)){
@@ -115,45 +135,35 @@ public class Board {
             else if (status == UNCOVERED && boardStatus[y][x] == COVERED){
                 expandIf0(x, y);
             }
-            else if (status == UNCOVERED && boardStatus[y][x] == MARKED){
-                System.out.println("are you sure? unmark (cover) before uncovering");
-            }
-            /*else if (status == COVERED){
-                boardStatus[y][x] = COVERED;
-            }  */
-            else{
-                System.out.println("Can't set status" + status + " to " + x + " " + y + "status there is alredy " + status);
-            }
         }
         else{
-            System.out.println("cordinates x = " + x + ", y = " + y + " not on board");
+            // TODO remove when ready
+            System.out.println("coordinates x = " + x + ", y = " + y + " not on board");
         }
     }
 
     /**
-     *
-     * @param x
-     * @param y
-     * @return  status in the cordinates
+     * @param x x-coordinate of the wanted tile
+     * @param y y-coordinate of the wanted tile
+     * @return  status of tile at the given given x, y coordinates
      */
     public BoardStatus getStatusXY(int x, int y){
         return boardStatus[y][x];
     }
 
     /**
-     *
-     * @param x
-     * @param y
-     * @return  data (number) in the cordinates  -1 = bomb
+     * @param x x-coordinate of the wanted tile
+     * @param y y-coordinate of the wanted tile
+     * @return  data (number) of the wanted tile  (-1 = bomb)
      */
     public int getDataXY(int x, int y){
         return boardData[y][x];
     }
 
     /**
-     * uncovers tile at x, y locations and if its 0, uncovers all tiles around
-     * @param x  x-cordinate
-     * @param y  y-cordinate
+     * uncovers tile(x, y), and all around it, if data in the coordinate was 0
+     * @param x  x-coordinate
+     * @param y  y-coordinate
      */
     private void expandIf0(int x, int y){
          // dont do if already uncovered
@@ -174,7 +184,7 @@ public class Board {
     }
 
     /**
-     * setups a board... Places random bombs and number
+     * setups board (new game) == Places random bombs and numbers around the bombs
      */
     public void setupBoard(){
         clearBoard();
@@ -188,13 +198,15 @@ public class Board {
         markedSpacesCount = 0;
     }
 
-    // käytetty testaamiseen
+
     /**
-     * setups a board... bombs are the given bombs, bombs should be marked whit -1 in int[][] bombs
+     * setupBoard for tests whit given bombs
+     * will crash if bombs[][] are wrong size or bombAmount wrong
+     * @param bombs array bombs[][] whit given bombs for testing
+     * @param bombAmount  amount of bombs in bombs[][]
      */
     protected void setupBoard(int[][] bombs, int bombAmount){
         clearBoard();
-        // TODO testaa että int[][] bombs on sallittu
         this.bombAmount = bombAmount;
         boardData = bombs;
         placeNumbers();
@@ -203,7 +215,7 @@ public class Board {
 
 
     /**
-     * covers the whole board ( all cords to covered in int[][] boardStatus)
+     * covers the whole board (all tiles get BoardStatus.COVERED)
      */
     private void coverBoard(){
         for (int y = 0; y < boardHeight; y++) {
@@ -214,7 +226,7 @@ public class Board {
     }
 
     /**
-     * uncovers board
+     * uncovers whole board
      */
     void uncoverBoard(){
         for (int y = 0; y < boardHeight; y++) {
@@ -225,7 +237,7 @@ public class Board {
     }
 
     /**
-     * clears board (sets all cordinates in boardData[][] to 0
+     * clears board (sets all coordinates in boardData[][] to 0
      */
     protected void clearBoard(){
         for (int y = 0; y < boardHeight; y++) {
@@ -237,8 +249,8 @@ public class Board {
 
      /**
      * places the bombs at the board.
-     * if the first place it tries to blace the bomb at are occupied
-     * it places the bomb at next unoccupied place
+     * if the first place it tries to place the bomb at are occupied
+     * it places the bomb at next unoccupied place (to the right)
      */
      private void placeBombs(){
         Random randomPlace = new Random();
@@ -276,7 +288,10 @@ public class Board {
     }
 
     /**
-     * Checks how many bombs there are close to the given cordinates
+     * Checks how many bombs there are close to the given tile
+     * @param x  x-coordinate of tile
+     * @param y  y- coordinate of tile
+     * @return  amount of bombs beside the given tile
      */
     private int bombsClose(int x, int y){
         int bombsClose = 0;
@@ -292,75 +307,28 @@ public class Board {
     }
 
     /**
-     *
-     * @param x x-cordinate
-     * @param y y-cordinate
-     * @return   true if cord is on board, othervise false
+     * @param x x-coordinate
+     * @param y y-coordinate
+     * @return   true if given coordinates are part of the board
      */
     public boolean cordOnBoard(int x, int y){
-        if (y >= 0 && x >= 0 && x < boardWidth && y < boardHeight) return true;
-        return false;
+        return y >= 0 && x >= 0 && x < boardWidth && y < boardHeight;
     }
 
 
     /**
-     *
      * @param x  x-cordinate
      * @param y  y-cordinate
      * @return  true if there's a bomb in the given cordinates
      */
     private boolean isBombAt(int x, int y){
-        if (cordOnBoard(x,y) && boardData[y][x] == BOMB){
-            return true;
-        }
-        return false;
+        return cordOnBoard(x, y) && boardData[y][x] == BOMB;
     }
 
 
-
-
-
-      // väliaikainen tekstiversiossa
     /**
-     * Prints the board not hidden
-     */
-    public void printShownBoard(){
-        for (int y = 0; y < boardHeight; y++) {
-            for (int x = 0; x < boardHeight; x++) {
-                if (boardData[y][x] == BOMB)System.out.print("* ");
-                else System.out.print(boardData[y][x] + " ");
-            }
-            System.out.println();
-        }
-    }
-     // väliaikanen tekstiversiossa
-    /**
-     * prints the board, using statusInfoa from boardStatus[][] (* if bomb, X if marked, _ if uncovered )
-     */
-    public void printBoard(){
-        for (int y = 0; y < boardHeight; y++) {
-            for (int x = 0; x < boardWidth; x++) {
-                switch (boardStatus[y][x]) {
-
-                    case UNCOVERED:
-                        if (boardData[y][x] == BOMB)System.out.print("* ");
-                        else System.out.print(boardData[y][x] + " ");
-                        break;
-                    case MARKED:
-                        System.out.print("x ");
-                        break;
-                    case COVERED:
-                        System.out.print("_ ");
-                        break;
-                }
-            }
-            System.out.println();
-        }
-    }
-
-    /**
-     *
-     * @return  true if all bombs are marked correctly
+     * checks if board are marked correctly
+     * @return  true if all bombs are marked
      */
     public boolean checkBoard(){
         if (markedSpacesCount < bombAmount){
@@ -377,10 +345,10 @@ public class Board {
     }
 
     /**
-     *
-     * @param x
-     * @param y
-     * @return  Enum that tells what picture an tile shall have
+     * telss what tile should be drawn at a specific coordinate
+     * @param x x-coordinate of wanted tile
+     * @param y y-coordinate of wanted tile
+     * @return  enum painting tile in UI
      */
     public TileAppearence getTileAppearance(int x, int y){
         BoardStatus status = getStatusXY(x,y);
