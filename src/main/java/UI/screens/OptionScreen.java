@@ -120,7 +120,7 @@ public class OptionScreen extends Screen{
                 gameLogic.setSize(40,20);
                 hugeGame.toggleOn(smallGame, mediumGame, largeGame);
             }
-                                                                                   of board size
+
         });
         buttons.add(hugeGame);
         largeGame = new Button(frame, "largeUnToggle.png","largeToggle.png", 32, 254, new ButtonHandler() {

@@ -59,7 +59,8 @@ public class MenuScreen extends Screen {
 
         startButton.ifClicked(posX, posY);
         optionButton.ifClicked(posX, posY);
-        highScoreButton.ifClicked(posX, posY);
+        //TODO HIGHSCORE
+        //highScoreButton.ifClicked(posX, posY);
 
     }
 
@@ -73,7 +74,7 @@ public class MenuScreen extends Screen {
         menuLogo.draw(g2, 64, 64);
         startButton.draw(g2);
         optionButton.draw(g2);
-        highScoreButton.draw(g2);
+        //highScoreButton.draw(g2);
     }
 
 
@@ -87,14 +88,12 @@ public class MenuScreen extends Screen {
                @Override
                public void onButtonClick(BaseFrame frame) {
                      frame.changeToGame();
-                   System.out.println("change");
                }
            });
         optionButton = new Button(frame, "options.png", 96, 224, new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
                 frame.changeToOptions();
-                System.out.println("change");
             }
         });
         highScoreButton = new Button(frame,"highScore.png", 96, 288, new ButtonHandler() {

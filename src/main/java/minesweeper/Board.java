@@ -345,18 +345,19 @@ public class Board {
     }
 
     /**
-     * telss what tile should be drawn at a specific coordinate
+     * tileAppearance of board while playing round
+     * tels what tile should be drawn at a specific coordinate
      * @param x x-coordinate of wanted tile
      * @param y y-coordinate of wanted tile
      * @return  enum painting tile in UI
      */
-    public TileAppearance getTileAppearance(int x, int y){
+    protected TileAppearance getPlayingTileAppearance(int x, int y){
         BoardStatus status = getStatusXY(x,y);
         int data = getDataXY(x, y);
         TileAppearance tileStatus = GRASS;
         if (status == COVERED) tileStatus = GRASS;
         else if (status == MARKED)  tileStatus = FLAG;
-        else if (data == -1) tileStatus = BOMBFIELD;
+        else if (data == BOMB) tileStatus = EXPLODEDBOMB;
         else if (data == 1)  tileStatus = NUMBER1;
         else if (data == 2)  tileStatus = NUMBER2;
         else if (data == 3)  tileStatus = NUMBER3;
@@ -366,8 +367,64 @@ public class Board {
         else if (data == 7)  tileStatus = NUMBER7;
         else if (data == 8)  tileStatus = NUMBER8;
         else if (data == 9)  tileStatus = NUMBER9;
-        else tileStatus = NUMBER0;
+        else tileStatus = DIRT;
         return tileStatus;
     }
+
+    /**
+     * tileAppearance of board when lost
+     * tels what tile should be drawn at a specific coordinate
+     * @param x x-coordinate of wanted tile
+     * @param y y-coordinate of wanted tile
+     * @return  enum painting tile in UI
+     */
+    protected TileAppearance getLostTileAppearance(int x, int y){
+        BoardStatus status = getStatusXY(x,y);
+        int data = getDataXY(x, y);
+        TileAppearance tileStatus = GRASS;
+        if (status == MARKED && data == BOMB){
+            tileStatus = EXPLODEDMARKEDFLAG;
+        }
+        else if (data == BOMB){
+            tileStatus = EXPLODEDBOMB;
+        }
+        else if (status == MARKED){
+            tileStatus = WRONGMARKEDFLAG;
+        }
+        else if (data != 0){
+            tileStatus = FIRE;
+        }
+        else if (status == UNCOVERED){
+            tileStatus = DIRT;
+        }
+        return tileStatus;
+    }
+
+    /**
+     * tileAppearance of board when won
+     * tels what tile should be drawn at a specific coordinate
+     * @param x x-coordinate of wanted tile
+     * @param y y-coordinate of wanted tile
+     * @return  enum painting tile in UI
+     */
+    protected TileAppearance getWonTileAppearance(int x, int y){
+        BoardStatus status = getStatusXY(x,y);
+        int data = getDataXY(x, y);
+        TileAppearance tileStatus = GRASS;
+        if (status == COVERED) tileStatus = GRASS;
+        else if (status == MARKED)  tileStatus = FOUNDBOMB;
+        else if (data == 1)  tileStatus = NUMBER1;
+        else if (data == 2)  tileStatus = NUMBER2;
+        else if (data == 3)  tileStatus = NUMBER3;
+        else if (data == 4)  tileStatus = NUMBER4;
+        else if (data == 5)  tileStatus = NUMBER5;
+        else if (data == 6)  tileStatus = NUMBER6;
+        else if (data == 7)  tileStatus = NUMBER7;
+        else if (data == 8)  tileStatus = NUMBER8;
+        else if (data == 9)  tileStatus = NUMBER9;
+        else tileStatus = DIRT;
+        return tileStatus;
+    }
+
 
 }

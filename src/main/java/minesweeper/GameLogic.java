@@ -154,8 +154,6 @@ public class GameLogic {
      */
     public boolean doMove(int x, int y, BoardStatus status){
             if (!playing){
-                // TODO remove sout when not needed
-               System.out.println("no game running");
                return false;
             }
             //todo remove if and first else if when npt needed
@@ -218,8 +216,6 @@ public class GameLogic {
      * updates booleans when lost
      */
     private void lost(){
-        // TODO remove print when lost screen are ready
-        System.out.println("\n\nARRGGH a BOMB\n\n");
         playing = false;
         hasWon = false;
     }
@@ -228,11 +224,28 @@ public class GameLogic {
      * updates booleans when won
      */
     private void won(){
-        // TODO remove print when win screen are ready
-        System.out.println("\n\nYay! All Bombs found");
         playing = false;
         hasWon = true;
     }
+
+
+    /**
+     * returns the tiles on the tileAppearance of the board depending on the state of the game
+     * @param x x-coordinate (tileCoordinate) of the wanted tile
+     * @param y y-coordinate (tileCoordinate) of the wanted tile
+     * @return   enum painting tile in UI
+     */
+    public TileAppearance getTileAppearance(int x, int y){
+        if (playing){
+            return board.getPlayingTileAppearance(x, y);
+        }
+        else if (hasWon){
+            return board.getWonTileAppearance(x, y);
+        }
+        return board.getLostTileAppearance(x, y);
+    }
+
+
 
 }
 

@@ -159,13 +159,13 @@ public class BoardTest {
     @Test
     public void getTileStatusTest(){
         board.setupBoard(makeTestBoard(), 3);
-        assertEquals("", TileAppearance.GRASS, board.getTileAppearance(0, 0));
+        assertEquals("", TileAppearance.GRASS, board.getPlayingTileAppearance(0, 0));
         board.setStatusXY(0,0, MARKED );
-        assertEquals("", TileAppearance.FLAG, board.getTileAppearance(0, 0));
+        assertEquals("", TileAppearance.FLAG, board.getPlayingTileAppearance(0, 0));
         board.setStatusXY(2,0, UNCOVERED);
-        assertEquals("", TileAppearance.BOMBFIELD, board.getTileAppearance(2, 0));
+        assertEquals("", TileAppearance.EXPLODEDBOMB, board.getPlayingTileAppearance(2, 0));
         board.setStatusXY(1,1, UNCOVERED);
-        assertEquals("", TileAppearance.NUMBER3, board.getTileAppearance(1, 1));
+        assertEquals("", TileAppearance.NUMBER3, board.getPlayingTileAppearance(1, 1));
     }
 
 
