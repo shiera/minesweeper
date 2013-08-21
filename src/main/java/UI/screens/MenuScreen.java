@@ -17,10 +17,11 @@ public class MenuScreen extends Screen {
 
     private Button startButton;
     private Button optionButton;
-    private Button highScoreButton;
+    private Button helpButton;
 
     Picture logo = new Picture("logo.png");
     Picture menuLogo = new Picture("menuLogo.png");
+
 
 
     /**
@@ -56,12 +57,17 @@ public class MenuScreen extends Screen {
     protected void whenClicked(MouseEvent e) {
         int  posX = e.getX();
         int posY = e.getY();
+        boolean buttonClicked = false;
+        if (startButton.ifClicked(posX, posY)) buttonClicked = true;
+        if (optionButton.ifClicked(posX, posY)) buttonClicked = true;
+        if (helpButton.ifClicked(posX, posY)) buttonClicked = true;
+        if (soundButton.ifClicked(posX, posY)) buttonClicked = true;
+        playSound(buttonClicked);
 
-        startButton.ifClicked(posX, posY);
-        optionButton.ifClicked(posX, posY);
-        //TODO HIGHSCORE
-        //highScoreButton.ifClicked(posX, posY);
+    }
 
+    public void playSound(boolean buttonClicked){
+        if (buttonClicked && frame.isSoundON()) selectButton.play();
     }
 
     /**
@@ -74,7 +80,8 @@ public class MenuScreen extends Screen {
         menuLogo.draw(g2, 64, 64);
         startButton.draw(g2);
         optionButton.draw(g2);
-        //highScoreButton.draw(g2);
+        helpButton.draw(g2);
+        soundButton.draw(g2);
     }
 
 
@@ -84,6 +91,7 @@ public class MenuScreen extends Screen {
      */
     @Override
     protected void makeButtons(BaseFrame frame){
+        super.makeButtons(frame);
         startButton = new Button(frame, "start.png", 96, 160, new ButtonHandler() {
                @Override
                public void onButtonClick(BaseFrame frame) {
@@ -96,12 +104,13 @@ public class MenuScreen extends Screen {
                 frame.changeToOptions();
             }
         });
-        highScoreButton = new Button(frame,"highScore.png", 96, 288, new ButtonHandler() {
+        helpButton = new Button(frame,"help.png", 96, 288, new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
-                //TODO HIGHSCORE
+                frame.changeToHelp();
             }
         });
+
     }
 
 }

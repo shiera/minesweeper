@@ -16,9 +16,11 @@ import java.awt.*;
 public class BaseFrame extends JFrame {
 
     private Screen menu;
-    private Screen gameBoard;
+    private Screen gameScreen;
     private Screen options;
+    private Screen help;
     private final GameLogic logic;
+    private boolean soundON = true;
 
 
     /**
@@ -42,13 +44,24 @@ public class BaseFrame extends JFrame {
         setVisible(true);
     }
 
+    public boolean isSoundON() {
+        return soundON;
+    }
+
+    /**
+     * used to mute/ unmute the game
+     */
+    public void chengeSoundOption() {
+        if (soundON) soundON = false;
+        else soundON = true;
+    }
 
     /**
      * changes screen to gameScreen
      */
     public void changeToGame(){
         logic.newGame();
-        changeScreen(gameBoard);
+        changeScreen(gameScreen);
 
     }
 
@@ -65,6 +78,13 @@ public class BaseFrame extends JFrame {
      */
     public void changeToOptions(){
         changeScreen(options);
+    }
+
+    /**
+     * changes screen to helpScreen
+     */
+    public void changeToHelp(){
+        changeScreen(help);
     }
 
     /**
@@ -86,8 +106,8 @@ public class BaseFrame extends JFrame {
      */
     private void makePanels(){
         menu = new MenuScreen(logic, this);
-
-        gameBoard = new BoardScreen(logic, this);
+        gameScreen = new BoardScreen(logic, this);
         options = new OptionScreen(logic, this);
+        help = new HelpScreen(logic, this);
     }
 }

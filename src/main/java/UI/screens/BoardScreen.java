@@ -5,7 +5,9 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 
 import UI.*;
+import UI.Button;
 import minesweeper.GameLogic;
+import sounds.Sound;
 
 import static UI.TileAppearance.*;
 import static minesweeper.BoardStatus.*;
@@ -21,10 +23,11 @@ public class BoardScreen extends Screen{
 
 
     private int xBoardOrigoCord = 64;
-    private int yBoardOrigoCord = 32;
+    private int yBoardOrigoCord = 64;
 
     private int choosedTileX = -1;
     private int choosedTileY = -1;
+
 
     // picture indicating wich tile is choosed
     private Picture choosedTile = new Picture("choosedTile.png");
@@ -33,6 +36,18 @@ public class BoardScreen extends Screen{
     private UI.Button menuButton;
     private UI.Button newGameButton;
 
+
+    private boolean alredyWon = false;
+
+    private Sound unleagal;
+    private Sound explosion;
+    private Sound flag;
+    private Sound dig;
+
+    private Sound winSound;
+
+
+
     /**
      * Constructor that calls the default constructor of screen
      * @param game used GameLogic
@@ -40,6 +55,8 @@ public class BoardScreen extends Screen{
      */
     public BoardScreen(GameLogic game, BaseFrame frame) {
         super(game, frame);
+
+
     }
 
     /**
@@ -65,7 +82,7 @@ public class BoardScreen extends Screen{
      */
     @Override
     public int getScreenWidth() {
-        return (gameLogic.getBoard().getBoardWidth()*tileSize) + 5*tileSize;
+        return (gameLogic.getBoard().getBoardWidth()*tileSize) + 4*tileSize;
     }
 
     /**
@@ -73,7 +90,7 @@ public class BoardScreen extends Screen{
      */
     @Override
     public int getScreenHeight() {
-        return (gameLogic.getBoard().getBoardHeight()*tileSize) + 6*tileSize;
+        return (gameLogic.getBoard().getBoardHeight()*tileSize) + 7*tileSize;
     }
 
     /**
@@ -88,32 +105,91 @@ public class BoardScreen extends Screen{
         int posY = e.getY();
         int tileX = (posX - xBoardOrigoCord) / tileSize;
         int tileY = (posY - yBoardOrigoCord) / tileSize;
+        boolean legalMove = false;
         // ensures that tileX, tileY are outside of board if clicked at the left or upper side of the board
         if (posX < xBoardOrigoCord || posY < yBoardOrigoCord) {
             tileX = -1;
             tileY = -1;
         }
+        int mouseButton = -1;
         // do if coordinates are on board
         if  (   tileX >= 0 && tileX < gameLogic.getBoard().getBoardWidth()  &&
                 tileY >= 0 && tileY < gameLogic.getBoard().getBoardHeight())   {
-            int mouseButton = e.getButton();
+            mouseButton = e.getButton();
             if (mouseButton == LEFTBUTTON) {
-                gameLogic.doMove(tileX, tileY, UNCOVERED);
+                legalMove = gameLogic.doMove(tileX, tileY, UNCOVERED);
             }
             if (mouseButton == RIGHTBUTTON) {
                 if (gameLogic.getBoard().getStatusXY(tileX, tileY) == MARKED) {
-                    gameLogic.doMove(tileX, tileY, COVERED);
-                } else gameLogic.doMove(tileX, tileY, MARKED);
+                    legalMove = gameLogic.doMove(tileX, tileY, COVERED);
+
+                }
+                else legalMove = gameLogic.doMove(tileX, tileY, MARKED);
             }
+
         }
         // if buttons was clicked
+        boolean buttonClicked = false;
         if ( gameLogic.flagsLeft() == 0 && isGameRrunning()) {
-            checkButton.ifClicked(posX, posY);
+            if (checkButton.ifClicked(posX, posY)) buttonClicked = true;
         }
         else if ( !isGameRrunning()){
-            newGameButton.ifClicked(posX, posY);
+            if (newGameButton.ifClicked(posX, posY)) buttonClicked = true;
         }
-        menuButton.ifClicked(posX, posY);
+        if (menuButton.ifClicked(posX, posY)) buttonClicked = true;
+        if (soundButton.ifClicked(posX, posY)) buttonClicked = true;
+        playSound(mouseButton, legalMove,buttonClicked);
+
+    }
+
+
+    @Override
+    protected void makeSounds() {
+        super.makeSounds();
+        unleagal = new Sound("unleagalMove");
+        explosion = new Sound("Explosion2");
+        flag = new Sound("flag");
+        dig = new Sound("dig");
+        winSound = new Sound("win");
+    }
+
+    /**
+     * plays sound for game
+     * @param mouseButton
+     * @param legalMove
+     * @param buttonClicked
+     */
+    public void playSound(int mouseButton, boolean legalMove, boolean buttonClicked){
+        if (frame.isSoundON()) {
+            if (!alredyWon && !isGameRrunning()){
+                alredyWon = true;
+                if (isGameWon()){
+                    winSound.play();
+
+                }
+                else{
+                    explosion.play();
+
+                }
+            }
+            else if (buttonClicked){
+                selectButton.play();
+
+            }
+            else if (legalMove){
+                if (mouseButton == LEFTBUTTON){
+                    dig.play();
+
+                }
+                else{
+                    flag.play();
+                }
+
+            }
+            else{
+                unleagal.play();
+            }
+        }
     }
 
     /**
@@ -140,8 +216,10 @@ public class BoardScreen extends Screen{
      */
     @Override
     public void open() {
+        super.open();
         newGameButton.changePos(getScreenWidth()/2-48, getScreenHeight()-64);
         checkButton.changePos(getScreenWidth()/2-48, getScreenHeight()-64);
+
     }
 
     /**
@@ -150,6 +228,7 @@ public class BoardScreen extends Screen{
      */
     @Override
     protected void paintScreen(Graphics2D g2) {
+
         int lastCoordinateOfBoardX = (gameLogic.getBoard().getBoardWidth()*tileSize)+ xBoardOrigoCord;
         int lastCoordinateOfBoardY = (gameLogic.getBoard().getBoardHeight()*tileSize)+ yBoardOrigoCord;
         drawBoardAndBackground(g2);
@@ -166,6 +245,7 @@ public class BoardScreen extends Screen{
             newGameButton.draw(g2);
         }
         menuButton.draw(g2);
+        soundButton.draw(g2);
         if (choosedTileY != -1){
             choosedTile.draw(g2, (choosedTileX*tileSize)+xBoardOrigoCord, (choosedTileY*tileSize)+yBoardOrigoCord);
         }
@@ -197,6 +277,7 @@ public class BoardScreen extends Screen{
      */
     @Override
     protected void makeButtons(BaseFrame frame){
+        super.makeButtons(frame);
         checkButton = new UI.Button( frame,"checkBoard.png", getScreenWidth()/2-48, getScreenHeight()-64, new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
@@ -213,8 +294,10 @@ public class BoardScreen extends Screen{
             @Override
             public void onButtonClick(BaseFrame frame) {
                 gameLogic.newGame();
+                alredyWon = false;
             }
         });
+
     }
 
 

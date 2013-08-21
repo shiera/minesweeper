@@ -27,6 +27,7 @@ public class OptionScreen extends Screen{
     Picture optionsLogo = new Picture("optionsLogo.png");
 
     private  ArrayList<Button> buttons;
+    private Button startButton;
 
     /**
      * Constructor that calls the default constructor of screen
@@ -45,7 +46,7 @@ public class OptionScreen extends Screen{
      */
     @Override
     public int getScreenWidth() {
-        return 288;
+        return 320;
     }
 
     /**
@@ -64,9 +65,15 @@ public class OptionScreen extends Screen{
     protected void whenClicked(MouseEvent e) {
         int  posX = e.getX();
         int posY = e.getY();
+        boolean buttonClicked = false;
         for (Button button : buttons) {
-             button.ifClicked(posX, posY);
+            if (button.ifClicked(posX, posY)) buttonClicked = true;
         }
+        playSound(buttonClicked);
+    }
+
+    public void playSound(boolean buttonClicked){
+        if (buttonClicked && frame.isSoundON()) selectButton.play();
     }
 
     /**
@@ -76,7 +83,7 @@ public class OptionScreen extends Screen{
     @Override
     protected void paintScreen(Graphics2D g2) {
         paintBackground(g2);
-        optionsLogo.draw(g2, 64, 32);
+        optionsLogo.draw(g2, 96, 32);
         g2.setColor(Color.WHITE);
         g2.drawString("change game Size ", 32, 105);
         g2.drawString("change amount ", 160, 105);
@@ -95,13 +102,23 @@ public class OptionScreen extends Screen{
      */
     @Override
     protected void makeButtons(BaseFrame frame){
+        super.makeButtons(frame);
+
         buttons = new ArrayList<Button>();
+        buttons.add(soundButton);
         menuButton = new Button( frame, "menu.png", 0, 0, new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
                 frame.changeToMenu();
             }
         });
+        startButton = new Button(frame, "start.png", 64,0, new ButtonHandler() {
+            @Override
+            public void onButtonClick(BaseFrame frame) {
+                frame.changeToGame();
+            }
+        });
+        buttons.add(startButton);
         buttons.add(menuButton);
         makeBombPercentButton(frame);
         makeBoardSizeButton(frame);
@@ -117,7 +134,7 @@ public class OptionScreen extends Screen{
         hugeGame = new Button(frame, "hugeUnToggle.png","hugeToggle.png", 32, 318, new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
-                gameLogic.setSize(40,20);
+                gameLogic.setSize(35,20);
                 hugeGame.toggleOn(smallGame, mediumGame, largeGame);
             }
 
@@ -126,7 +143,7 @@ public class OptionScreen extends Screen{
         largeGame = new Button(frame, "largeUnToggle.png","largeToggle.png", 32, 254, new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
-                gameLogic.setSize(20, 20);
+                gameLogic.setSize(20, 19);
                 largeGame.toggleOn(smallGame, mediumGame, hugeGame);
             }
 

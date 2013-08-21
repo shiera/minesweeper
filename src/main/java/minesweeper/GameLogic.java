@@ -132,7 +132,7 @@ public class GameLogic {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
         board = new Board(boardWidth,boardHeight, getBombAmount());
-        newGame();
+
     }
 
     /**
@@ -142,7 +142,7 @@ public class GameLogic {
     public void setBombAmountPercent(double bombAmountPercent) {
         this.bombAmountPercent = bombAmountPercent;
         board = new Board(boardWidth,boardHeight, getBombAmount());
-        newGame();
+
     }
 
     /**
@@ -150,7 +150,7 @@ public class GameLogic {
      * @param x x-coordinate of tile on board
      * @param y y-coordinate of tile on board
      * @param status  new status to the given tile, changes if legal move
-     * @return returns false and does nothing if playing are false (no game running)
+     * @return returns false and does nothing if playing are false (no game running) or if illegal move
      */
     public boolean doMove(int x, int y, BoardStatus status){
             if (!playing){
@@ -166,13 +166,13 @@ public class GameLogic {
             }
 
             else if (status == UNCOVERED){
-                uncover(x, y);
+                return uncover(x, y);
             }
             else if (status == MARKED){
-                mark(x, y);
+                return mark(x, y);
             }
             else if (status == COVERED){
-                board.setStatusXY(x, y, COVERED);
+                return board.setStatusXY(x, y, COVERED);
             }
             return true;
     }
@@ -182,11 +182,13 @@ public class GameLogic {
      * @param x  x-coordinate of the tile
      * @param y  y-coordinate of the tile
      */
-    private void uncover(int x, int y){
-        board.setStatusXY(x, y, UNCOVERED );
-        if (board.getBoardData()[y][x] == BOMB){
+    private boolean uncover(int x, int y){
+        boolean legal = board.setStatusXY(x, y, UNCOVERED );
+        if (legal && board.getBoardData()[y][x] == BOMB){
             lost();
+
         }
+        return legal;
     }
 
     /**
@@ -194,10 +196,11 @@ public class GameLogic {
      * @param x x-coordinate  of the tile
      * @param y y-coordinate of the tile
      */
-    private void mark(int x, int y){
+    private boolean mark(int x, int y){
         if (board.getMarkedSpacesCount() < getBombAmount()){
-             board.setStatusXY(x, y, MARKED);
+             return board.setStatusXY(x, y, MARKED);
         }
+        return false;
     }
 
     /**

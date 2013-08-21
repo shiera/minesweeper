@@ -11,4 +11,5 @@ public interface ButtonHandler {
      * @param frame  frame used in mineSweeper
      */
     void onButtonClick(BaseFrame frame);
+
 }

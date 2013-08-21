@@ -19,6 +19,7 @@ public class Button {
     private int posY;
     private ButtonHandler handler;
     private BaseFrame frame;
+    private boolean toggle;
 
 
     /**
@@ -29,8 +30,10 @@ public class Button {
      * @param posX x-coordinate (pixels) of the upper left corner of the button
      * @param posY y-coordinate (pixels) of the upper left corner of the button
      * @param handler will be called when the button is clicked
+     * @param toggle = should the button use the toggle method instead of toggleOn toggleOf, toggle is automatic if true
      */
-    public Button(BaseFrame frame, String imageName, String selectedImageName, int posX, int posY, ButtonHandler handler){
+    public Button(BaseFrame frame, String imageName, String selectedImageName, int posX, int posY, ButtonHandler handler, boolean toggle){
+        this.toggle = toggle;
         if (selectedImageName == null){
             selectedButtonPicture = null;
         }
@@ -48,6 +51,19 @@ public class Button {
     }
 
     /**
+     * Constructor used to toggleButton
+     * @param frame  the BaseFrame used in the game
+     * @param imageName name of the image, image should be in the package src/pictures/buttonPictures
+     * @param selectedImageName  name of image used when button is toggled, should be in same package as the other image
+     * @param posX x-coordinate (pixels) of the upper left corner of the button
+     * @param posY y-coordinate (pixels) of the upper left corner of the button
+     * @param handler will be called when the button is clicked
+     */
+    public Button(BaseFrame frame, String imageName, String selectedImageName, int posX, int posY, ButtonHandler handler) {
+        this(frame, imageName, selectedImageName, posX,posY, handler, false);
+    }
+
+    /**
      * Constructor used to not toggleButtons
      * @param frame  the BaseFrame used in the game
      * @param imageName name of the image, image should be in the package src/pictures/buttonPictures
@@ -56,7 +72,7 @@ public class Button {
      * @param handler will be called when the button is clicked
      */
     public Button(BaseFrame frame, String imageName, int posX, int posY, ButtonHandler handler){
-        this(frame, imageName, null, posX,posY, handler);
+        this(frame, imageName, null, posX,posY, handler, false);
     }
 
     /**
@@ -96,9 +112,23 @@ public class Button {
      * toggles of the button
      * does nothing if button has only 1 picture
      */
-    private  void toggleOf(){
+    public  void toggleOf(){
         if (selectedButtonPicture != null){
             picture = unSelectedPicture;
+        }
+    }
+
+    /**
+     * toggle on or off depending on case
+     */
+    public void toggle(){
+        if (selectedButtonPicture != null){
+            if (picture == selectedButtonPicture){
+                picture = unSelectedPicture;
+            }
+            else{
+                picture = selectedButtonPicture;
+            }
         }
     }
 
@@ -107,10 +137,15 @@ public class Button {
      * @param clickPosX  x-coordinate (pixels) of the click
      * @param clickPosY  y-coordinate (pixels) of the click
      */
-    public void ifClicked(int clickPosX, int clickPosY){
+    public boolean ifClicked(int clickPosX, int clickPosY){
          if (clickPosX >= posX && clickPosX < (posX + width) && clickPosY >= posY && clickPosY < (posY +height)){
+             if (toggle){
+                toggle();
+             }
              handler.onButtonClick(frame);
+             return true;
          }
+        return false;
 
 
     }

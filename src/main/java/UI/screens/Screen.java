@@ -1,7 +1,9 @@
 package UI.screens;
 
-import UI.BaseFrame;
+import UI.*;
+import UI.Button;
 import minesweeper.GameLogic;
+import sounds.Sound;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,8 +21,11 @@ import static UI.TileAppearance.OUTSIDE;
 abstract public class Screen extends JPanel {
     public static final int LEFTBUTTON = MouseEvent.BUTTON1;
     public static final int RIGHTBUTTON= MouseEvent.BUTTON3;
+    protected final BaseFrame frame;
     protected int tileSize = 32;
     protected final GameLogic gameLogic;
+    protected Sound selectButton;
+    protected Button soundButton;
 
 
     /**
@@ -29,16 +34,21 @@ abstract public class Screen extends JPanel {
      * @param frame  Frame used in game
      */
     public Screen(final GameLogic game, BaseFrame frame) {
+        this.frame = frame;
         this.gameLogic = game;
         makeButtons(frame);
         addMouse();
+        makeSounds();
     }
 
     /**
      * does what should be done when opening a screen
-     * does nothing on default
+     * updates soundbutton on default
      */
     public void open(){
+        if (frame.isSoundON()) soundButton.toggleOf();
+        else soundButton.toggleOn();
+        soundButton.changePos(getScreenWidth()-36, 0);
     }
 
     /**
@@ -52,12 +62,29 @@ abstract public class Screen extends JPanel {
     abstract public int getScreenHeight();
 
     /**
-     * make buttons here if frame uses buttons
-     * does nothing on default
+     * make buttons here if screen uses buttons
+     * makes only soundtogglebutton on default
      * @param frame  used BaseFrame
      */
     protected void makeButtons(BaseFrame frame){
+        soundButton = new UI.Button(frame, "soundOn.png","soundOf.png",getScreenWidth()-36, 0, new ButtonHandler() {
+            @Override
+            public void onButtonClick(BaseFrame frame) {
+                frame.chengeSoundOption();
+            }
+
+        }, true);
+
     }
+
+    /**
+     * makes sound objects in constructor
+     * does only buttonSound on default;
+     */
+    protected void makeSounds(){
+        selectButton = new Sound("selectButton");
+    }
+
 
     /**
      * changes Graphics to Graphics2D
@@ -107,6 +134,7 @@ abstract public class Screen extends JPanel {
     protected boolean mouseMove(MouseEvent e){
         return false;
     }
+
 
     /**
      * Adds mouseAdapter and MouseMotionListener to screen

@@ -121,25 +121,28 @@ public class Board {
      * @param x coordinate for the new status
      * @param y coordinate for the new status
      * @param status the new status (BoardStatus)
+     * @return true if legal move
      */
-    public void setStatusXY(int x, int y, BoardStatus status){
+    public boolean setStatusXY(int x, int y, BoardStatus status){
         if (cordOnBoard(x, y)){
             if (boardStatus[y][x] == COVERED && status == MARKED){
                 markedSpacesCount++;
                 boardStatus[y][x] = status;
+                return true;
             }
             else if (boardStatus[y][x] == MARKED && status == COVERED){
                 markedSpacesCount--;
                 boardStatus[y][x] = status;
+                return true;
             }
             else if (status == UNCOVERED && boardStatus[y][x] == COVERED){
                 expandIf0(x, y);
+                return true;
             }
         }
-        else{
-            // TODO remove when ready
-            System.out.println("coordinates x = " + x + ", y = " + y + " not on board");
-        }
+        return false;
+
+
     }
 
     /**
