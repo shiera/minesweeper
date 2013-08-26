@@ -1,22 +1,19 @@
 
-TODO!!!! tilelle enemmän kuvia
-TODO!!! instructioon screen
-TODO!!! napeille kuvat
-TODO!! pisteet
-TODO!! HIGHSCORE, screen
+
+TODO!!! napeille kuvat  + menu ja options teksti
+ TODO!!! KAIKKI DOKKARIT
 
 
-TODO testit lostTileApperarancelle ja Wintileappearenselle (boardissa)
+TODO? testit lostTileApperarancelle ja Wintileappearenselle (boardissa)   +
 
-todo enemmän testejä?
-todo?? win ja lost animaatiot
+
 
 
 
 puuttuu lopullisesta palautuksesta
 
-Ui luokkien testaaminen käsin?
+
 1-2 sekvenssikaaviota pelaamisesta
-katava luokkakaavio
+kattava luokkakaavio
 aihemäärittelyn selkeytys
 rakennekuvaus kaikesta (luokkakaavio tekstiversiona)

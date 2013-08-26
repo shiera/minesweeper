@@ -43,7 +43,7 @@ Boardtestissä nyt 6 testiä
 
 16.8 1h lisää säätöä
 
-17.8 5.5h UI
+17.8 6h UI
 
 17.8 4h Javadocit ja hieman refactorointia
 
@@ -56,3 +56,11 @@ Boardtestissä nyt 6 testiä
 20.8 2h help screen
 
 21.8 6h sounds
+
+22.8 2h dokkaria
+
+23.8 1.5 h option luokka + refaktorointia
+
+25.8 2h optionien tallentanminen toimii, refaktorointi ja siistiminen
+
+26.8 4h win ja lost tekstit  kuvia yms

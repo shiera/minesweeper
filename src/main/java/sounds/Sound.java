@@ -1,9 +1,7 @@
 package sounds;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URL;
 import javax.sound.sampled.AudioFileFormat;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -29,13 +27,19 @@ public class Sound implements Runnable {
         this.soundName = soundName;
     }
 
+    /**
+     * makes a new tread to the sound and plays it
+     */
     public void play(){
         Thread tread = new Thread(this);
         tread.start();
     }
 
 
-    private void playSound() {
+    /**
+     * loads the sound to a line and plays it
+     */
+    private void loadSound() {
         try {
 
             File soundFile =   new File("src//sounds//" + soundName + ".wav");
@@ -50,12 +54,13 @@ public class Sound implements Runnable {
                     line.open(format);
                 } catch (final Exception ex) {
                     System.out.println("Exception in sound: "+ex.getClass()+" exception: "+ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
             if (line != null){
                 line.start();
                 int bytesRead = 0;
-                byte[] data = new byte[524288]; //128kb puskuria
+                byte[] data = new byte[524288]; //puskuri
                 try {
                     while (bytesRead!=-1){
                         bytesRead = stream.read(data, 0, data.length);
@@ -67,18 +72,23 @@ public class Sound implements Runnable {
                     line.close();
                 } catch (final Exception ex){
                     System.out.println("Exception in sound: "+ex.getClass()+" exception: "+ex.getMessage());
+                    ex.printStackTrace();
                 }
             }
         } catch (final  IOException ex) {
             System.out.println("Exception in sound: "+ex.getClass()+" exception: "+ex.getMessage());
+            ex.printStackTrace();
         } catch (UnsupportedAudioFileException  ex){
             System.out.println("Exception in sound: "+ex.getClass()+" exception: "+ex.getMessage());
+            ex.printStackTrace();
         }
     }
 
-
+    /**
+     * don't use this, use play() instead
+     */
     @Override
     public void run() {
-        playSound();
+        loadSound();
     }
 }

@@ -19,29 +19,32 @@ public class Board {
 
     private int boardWidth;
     private int boardHeight;
-    private int bombAmount;
+    private double bombAmountPercent;
     private int markedSpacesCount = 0;
-    // the board whit -1 for bomb and numbers 0-9 for bombs close
+
+    // the board with -1 for bomb and numbers 0-9 for bombs close
     private int[][] boardData;
-    // the statusBoard whit 0 for uncovered, -1 for marked bomb and 1 for uncovered
+
+    // the statusBoard with 0 for uncovered, -1 for marked bomb and 1 for uncovered
     private BoardStatus[][] boardStatus;
 
     // testatessa true
     private boolean testingWhitGivenBoard;
+
     private int[][] testingBombs = null;
 
     /**
      * normal constructor
      * @param boardWidth  width (tile amount vertically) of board
      * @param boardHeight  height (tile amount horizontally) of board
-     * @param bombAmount   amount of bombs in the board max 1/3 of the tiles at the board
+     * @param bombAmountPercentage percent of bombTiles at board
      */
-    Board(int boardWidth, int boardHeight, int bombAmount) {
+    protected Board(int boardWidth, int boardHeight, double bombAmountPercentage) {
+        this.bombAmountPercent = bombAmountPercentage;
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
-        this.bombAmount = bombAmount;
-        if (bombAmount > (boardHeight*boardWidth)/3){
-            this.bombAmount = (boardHeight*boardWidth)/3;
+        if ( bombAmountPercentage > 33){
+            bombAmountPercentage = 33;
         }
         boardData = new int[boardHeight][boardWidth];
         boardStatus = new BoardStatus[boardHeight][boardWidth];
@@ -50,13 +53,17 @@ public class Board {
 
     }
 
+
+
+
+
     /**
      * constructor for test
      * @param boardSize  width and height of the board
      * @param bombAmount  amount of bombs on the board
      */
     protected Board(int boardSize, int bombAmount){
-         this(boardSize, boardSize, bombAmount);
+         this(boardSize, boardSize, (double)100*bombAmount/boardSize*boardSize);
     }
 
     /**
@@ -75,18 +82,23 @@ public class Board {
     /**
      * @return height (tile amount vertically) of the board
      */
-    public int getBoardHeight() {
+    public int getHeight() {
         return boardHeight;
     }
 
     /**
      * @return width (tile amount horizontally) of the board
      */
-    public int getBoardWidth() {
+    public int getWidth() {
         return boardWidth;
     }
 
+    public double getBombAmountPercent() {
+        return bombAmountPercent ;
+    }
+
     /**
+     * test uses
      * @return the boardStatus in form of int[][] whit 0 for uncovered,
      *          -1 for marked bomb and 1 for uncovered
      */
@@ -98,13 +110,13 @@ public class Board {
      * @return the amount of bombs, that will be/are at the board
      */
     public int getBombAmount() {
-        return bombAmount;
+        return (int)(bombAmountPercent*boardHeight*boardWidth/100);
     }
 
     /**
      * @return  the board in form of int[][] whit -1 for bomb and numbers 0-9 for bombs close
      */
-    public int[][] getBoardData() {
+    protected int[][] getBoardData() {
         return boardData;
     }
 
@@ -196,7 +208,7 @@ public class Board {
         coverBoard();
         // testin takia
         if (testingWhitGivenBoard){
-            setupBoard(testingBombs,bombAmount);
+            setupBoard(testingBombs,getBombAmount());
         }
         markedSpacesCount = 0;
     }
@@ -210,7 +222,6 @@ public class Board {
      */
     protected void setupBoard(int[][] bombs, int bombAmount){
         clearBoard();
-        this.bombAmount = bombAmount;
         boardData = bombs;
         placeNumbers();
         coverBoard();
@@ -228,16 +239,7 @@ public class Board {
         }
     }
 
-    /**
-     * uncovers whole board
-     */
-    void uncoverBoard(){
-        for (int y = 0; y < boardHeight; y++) {
-            for (int x = 0; x < boardWidth; x++) {
-                boardStatus[y][x] = UNCOVERED;
-            }
-        }
-    }
+
 
     /**
      * clears board (sets all coordinates in boardData[][] to 0
@@ -257,7 +259,7 @@ public class Board {
      */
      private void placeBombs(){
         Random randomPlace = new Random();
-        for (int i = 0; i <bombAmount ; i++) {
+        for (int i = 0; i <getBombAmount() ; i++) {
              int x = randomPlace.nextInt(boardWidth);
              int y = randomPlace.nextInt(boardHeight);
              while (boardData[y][x] == BOMB){
@@ -334,7 +336,7 @@ public class Board {
      * @return  true if all bombs are marked
      */
     public boolean checkBoard(){
-        if (markedSpacesCount < bombAmount){
+        if (markedSpacesCount < getBombAmount()){
             return false;
         }
         for (int y = 0; y < boardHeight; y++) {
@@ -348,7 +350,7 @@ public class Board {
     }
 
     /**
-     * tileAppearance of board while playing round
+     * tileAppearance of board while isPlaying round
      * tels what tile should be drawn at a specific coordinate
      * @param x x-coordinate of wanted tile
      * @param y y-coordinate of wanted tile
@@ -413,7 +415,7 @@ public class Board {
     protected TileAppearance getWonTileAppearance(int x, int y){
         BoardStatus status = getStatusXY(x,y);
         int data = getDataXY(x, y);
-        TileAppearance tileStatus = GRASS;
+        TileAppearance tileStatus;
         if (status == COVERED) tileStatus = GRASS;
         else if (status == MARKED)  tileStatus = FOUNDBOMB;
         else if (data == 1)  tileStatus = NUMBER1;

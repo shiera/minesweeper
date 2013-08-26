@@ -1,5 +1,7 @@
 package UI;
 
+import minesweeper.Options;
+
 /**
  * Author: Shiera
  * Something that handles button clicks.
@@ -11,5 +13,7 @@ public interface ButtonHandler {
      * @param frame  frame used in mineSweeper
      */
     void onButtonClick(BaseFrame frame);
+
+
 
 }

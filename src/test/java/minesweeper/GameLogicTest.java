@@ -27,7 +27,7 @@ public class GameLogicTest {
         board = new Board(TestUtils.testBoardSize, bombsInTest);
         // vain etukäteen määritelty lauta
         board.setupBoard(makeTestBoard(), bombsInTest);
-        gameLogic = new GameLogic(testBoardSize, bombsInTest, board );
+        gameLogic = new GameLogic(board );
     }
 
     @Test
@@ -60,8 +60,8 @@ public class GameLogicTest {
     public void setSizeTest(){
         double percent = gameLogic.getBombAmountPercent();
         gameLogic.setSize(testBoardSize*2,testBoardSize);
-        assertEquals("board width wrong after change size", testBoardSize*2,gameLogic.getBoard().getBoardWidth());
-        assertEquals("board height wrong after change size", testBoardSize ,gameLogic.getBoard().getBoardHeight());
+        assertEquals("board width wrong after change size", testBoardSize*2,gameLogic.getBoard().getWidth());
+        assertEquals("board height wrong after change size", testBoardSize ,gameLogic.getBoard().getHeight());
         assertEquals("board should have same bombAmountPercent after changing size",  percent, gameLogic.getBombAmountPercent(), 0.1);
         assertEquals("board should have double amount of bombs (from gamelogic)", bombsInTest*2, gameLogic.getBombAmount());
         assertEquals("board should have double amount of bombs (from board)", bombsInTest*2, gameLogic.getBoard().getBombAmount());

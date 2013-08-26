@@ -67,7 +67,7 @@ public class MenuScreen extends Screen {
     }
 
     public void playSound(boolean buttonClicked){
-        if (buttonClicked && frame.isSoundON()) selectButton.play();
+        if (buttonClicked && frame.isSoundON()) select.play();
     }
 
     /**

@@ -65,7 +65,7 @@ public class Picture {
      * @return  returns the image , return a pink 32, 32 pixel image if the right image can't be found
      */
     private BufferedImage load(String imageName){
-        BufferedImage loadedImage = null;
+        BufferedImage loadedImage;
         try {
             loadedImage = ImageIO.read(new File("src//pictures//" + imageName));
 

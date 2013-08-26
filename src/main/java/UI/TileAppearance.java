@@ -17,8 +17,7 @@ public enum TileAppearance {
     BURNEDFLAG(false,false, "burningFlag.png"),
     WRONGMARKEDFLAG(false, false),
     FIRE(true,false, "fire.png","fire2.png", "fire3.png"),
-    //todo is number to false when new picture
-    EXPLODEDBOMB(true,false, "explodedBomb.png", "explodedBomb2.png"),
+    EXPLODEDBOMB(true,false, "explodedBomb.png", "explodedBomb2.png", "explodedBomb3.png"),
     EXPLODEDMARKEDFLAG(false, false),
     OUTSIDE(false,false, "outside3.png", "outside2.png", "outside3.png", "outside3.png", "outside3.png", "outside3.png",
             "outside4.png", "outside5.png", "outside6.png", "outside7.png", "outside8.png"),

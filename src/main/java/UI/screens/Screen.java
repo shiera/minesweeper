@@ -19,12 +19,14 @@ import static UI.TileAppearance.OUTSIDE;
  * Extend JPanel
  */
 abstract public class Screen extends JPanel {
+    protected static final Font FONT = new Font("System", Font.PLAIN, 16);
+    protected static final Font SMALLFONT = new Font("System", Font.PLAIN, 12);
     public static final int LEFTBUTTON = MouseEvent.BUTTON1;
     public static final int RIGHTBUTTON= MouseEvent.BUTTON3;
     protected final BaseFrame frame;
     protected int tileSize = 32;
     protected final GameLogic gameLogic;
-    protected Sound selectButton;
+    protected Sound select;
     protected Button soundButton;
 
 
@@ -43,7 +45,7 @@ abstract public class Screen extends JPanel {
 
     /**
      * does what should be done when opening a screen
-     * updates soundbutton on default
+     * updates soundButton on default
      */
     public void open(){
         if (frame.isSoundON()) soundButton.toggleOf();
@@ -70,7 +72,7 @@ abstract public class Screen extends JPanel {
         soundButton = new UI.Button(frame, "soundOn.png","soundOf.png",getScreenWidth()-36, 0, new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
-                frame.chengeSoundOption();
+                frame.changeSoundOption();
             }
 
         }, true);
@@ -82,7 +84,7 @@ abstract public class Screen extends JPanel {
      * does only buttonSound on default;
      */
     protected void makeSounds(){
-        selectButton = new Sound("selectButton");
+        select = new Sound("select");
     }
 
 
@@ -162,11 +164,7 @@ abstract public class Screen extends JPanel {
             @Override
             public void mouseReleased(MouseEvent e) {
                 whenClicked(e);
-              /**
-     * make buttons here if frame uses buttons
-     * does nothing on default
-     * @param frame  used BaseFrame
-     */
+
       repaint();
             }
         });

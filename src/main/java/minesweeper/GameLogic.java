@@ -13,13 +13,11 @@ import static minesweeper.BoardStatus.*;
  */
 public class GameLogic {
 
-    private final int BOMB = Board.BOMB;
+
     private Board board;
-    private double bombAmountPercent;
     private boolean playing;
     private boolean hasWon;
-    private int boardWidth;
-    private int boardHeight;
+
 
     /**
      * Constructor used if width and height are the same
@@ -37,24 +35,17 @@ public class GameLogic {
      * @param bombAmountPercent percent of tiles whit bombs at the board (board constructor maximum 33.33%)
      */
     public GameLogic( int boardWidth, int boardHeight,double bombAmountPercent) {
-        this.boardWidth = boardWidth;
-        this.boardHeight = boardHeight;
-        this.bombAmountPercent = bombAmountPercent;
-        board = new Board(boardWidth,boardHeight, (int)(bombAmountPercent*boardHeight*boardWidth/100));
+        board = new Board(boardWidth,boardHeight, bombAmountPercent);
         newGame();
     }
 
 
     /**
      * used in testing
-     * @param size  boardSize
-     * @param bombAmount  amounts if bombs
      * @param board    board used in test
      */
-    protected GameLogic(int size, int bombAmount, Board board ){
-        this.boardHeight = size;
-        this.boardWidth = size;
-        this.bombAmountPercent = (double)100*bombAmount/(boardHeight*boardWidth);
+    protected GameLogic( Board board ){
+
         this.board = board;
         playing = true;
     }
@@ -63,25 +54,25 @@ public class GameLogic {
      * @return percent of tiles whit bombs at the board
      */
     protected double getBombAmountPercent() {
-        return bombAmountPercent;
+        return board.getBombAmountPercent();
     }
 
     /**
      * @return amount of the bombs at the board (derived from size and bombAmountPercent)
      */
     public int getBombAmount(){
-        return  (int)(bombAmountPercent*boardHeight*boardWidth/100);
+        return  board.getBombAmount();
     }
 
     /**
      * @return true if one round of the game are running
      */
-    public boolean playing() {
+    public boolean isPlaying() {
         return playing;
     }
 
     /**
-     * @return true if the game is won, game is lost if hasWon and playing are both false
+     * @return true if the game is won, game is lost if hasWon and isPlaying are both false
      */
     public boolean hasWon() {
         return hasWon;
@@ -116,22 +107,12 @@ public class GameLogic {
 
 
     /**
-     * change size of the board
-     * @param size  new size of the board
-     */
-    public void setSize(int size){
-        setSize(size, size);
-    }
-
-    /**
      * change size of board, takes different width than height
      * @param boardWidth  new width of the board
      * @param boardHeight new height of the board
      */
     public void setSize(int boardWidth, int boardHeight){
-        this.boardWidth = boardWidth;
-        this.boardHeight = boardHeight;
-        board = new Board(boardWidth,boardHeight, getBombAmount());
+        board = new Board(boardWidth,boardHeight, getBombAmountPercent());
 
     }
 
@@ -140,8 +121,7 @@ public class GameLogic {
      * @param bombAmountPercent new bombAmountPercent of the board
      */
     public void setBombAmountPercent(double bombAmountPercent) {
-        this.bombAmountPercent = bombAmountPercent;
-        board = new Board(boardWidth,boardHeight, getBombAmount());
+        board = new Board(board.getWidth(), board.getHeight(), bombAmountPercent);
 
     }
 
@@ -150,31 +130,25 @@ public class GameLogic {
      * @param x x-coordinate of tile on board
      * @param y y-coordinate of tile on board
      * @param status  new status to the given tile, changes if legal move
-     * @return returns false and does nothing if playing are false (no game running) or if illegal move
+     * @return returns false and does nothing if isPlaying are false (no game running) or if illegal move
      */
     public boolean doMove(int x, int y, BoardStatus status){
             if (!playing){
                return false;
             }
-            //todo remove if and first else if when npt needed
-            if (x < 0 || x >= boardWidth){
-                System.out.println("x cordinate " + x + "is  out of board maxX = " + (boardWidth- 1));
-
+            if (x >= 0 && x < board.getWidth() &&
+                y >= 0 && y < board.getHeight()){
+                if (status == UNCOVERED){
+                    return uncover(x, y);
+                }
+                else if (status == MARKED){
+                    return mark(x, y);
+                }
+                else if (status == COVERED){
+                    return board.setStatusXY(x, y, COVERED);
+                }
             }
-            else if (y < 0 || y >= boardHeight ){
-                System.out.println("y cordinate " + y + "is  out of board maxY = " + (boardHeight - 1));
-            }
-
-            else if (status == UNCOVERED){
-                return uncover(x, y);
-            }
-            else if (status == MARKED){
-                return mark(x, y);
-            }
-            else if (status == COVERED){
-                return board.setStatusXY(x, y, COVERED);
-            }
-            return true;
+            return false;
     }
 
     /**
@@ -184,7 +158,7 @@ public class GameLogic {
      */
     private boolean uncover(int x, int y){
         boolean legal = board.setStatusXY(x, y, UNCOVERED );
-        if (legal && board.getBoardData()[y][x] == BOMB){
+        if (legal && board.getBoardData()[y][x] == Board.BOMB){
             lost();
 
         }
@@ -197,10 +171,7 @@ public class GameLogic {
      * @param y y-coordinate of the tile
      */
     private boolean mark(int x, int y){
-        if (board.getMarkedSpacesCount() < getBombAmount()){
-             return board.setStatusXY(x, y, MARKED);
-        }
-        return false;
+        return board.getMarkedSpacesCount() < getBombAmount() && board.setStatusXY(x, y, MARKED);
     }
 
     /**
