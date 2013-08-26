@@ -77,7 +77,7 @@ public class MenuScreen extends Screen {
     protected void paintScreen(Graphics2D g2) {
         paintBackground(g2);
         logo.draw(g2, 64, 0);
-        menuLogo.draw(g2, 64, 64);
+        menuLogo.draw(g2, 96, 96);
         startButton.draw(g2);
         optionButton.draw(g2);
         helpButton.draw(g2);

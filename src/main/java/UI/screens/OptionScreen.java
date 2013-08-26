@@ -96,7 +96,7 @@ public class OptionScreen extends Screen{
     @Override
     protected void paintScreen(Graphics2D g2) {
         paintBackground(g2);
-        optionsLogo.draw(g2, 96, 32);
+        optionsLogo.draw(g2, 80, 32);
         g2.setColor(Color.WHITE);
         g2.drawString("change game Size ", 32, 105);
         g2.drawString("change amount ", 160, 105);
