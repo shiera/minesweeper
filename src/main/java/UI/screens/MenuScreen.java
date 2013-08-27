@@ -62,13 +62,11 @@ public class MenuScreen extends Screen {
         if (optionButton.ifClicked(posX, posY)) buttonClicked = true;
         if (helpButton.ifClicked(posX, posY)) buttonClicked = true;
         if (soundButton.ifClicked(posX, posY)) buttonClicked = true;
-        playSound(buttonClicked);
+        playButtonSound(buttonClicked);
 
     }
 
-    public void playSound(boolean buttonClicked){
-        if (buttonClicked && frame.isSoundON()) select.play();
-    }
+
 
     /**
      * paints menuScreen

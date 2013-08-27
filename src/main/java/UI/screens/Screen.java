@@ -87,6 +87,14 @@ abstract public class Screen extends JPanel {
         select = new Sound("select");
     }
 
+    /**
+     * plays buttonsound  when a button is clicked and the game is not muted
+     * @param buttonClicked
+     */
+    protected void playButtonSound(boolean buttonClicked){
+        if (buttonClicked && frame.isSoundON()) select.play();
+    }
+
 
     /**
      * changes Graphics to Graphics2D

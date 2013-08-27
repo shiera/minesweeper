@@ -47,12 +47,10 @@ public class HelpScreen extends Screen {
         if (menuButton.ifClicked(posX, posY)) buttonClicked = true;
         if (startButton.ifClicked(posX, posY)) buttonClicked = true;
         if (soundButton.ifClicked(posX, posY)) buttonClicked = true;
-        playSound(buttonClicked);
+        playButtonSound(buttonClicked);
     }
 
-    public void playSound(boolean buttonClicked){
-       if (buttonClicked && frame.isSoundON()) select.play();
-    }
+
 
     @Override
     protected void paintScreen(Graphics2D g2) {

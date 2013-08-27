@@ -16,7 +16,10 @@ public class Options {
 
     private BoardSizeOptions size = SMALL;
     private DifficultyOptions difficulty = EASY;
+    private boolean soundON = true;
     private File config;
+
+
 
 
     /**
@@ -30,6 +33,7 @@ public class Options {
                 size = BoardSizeOptions.valueOf(fileReader.nextLine());
                 difficulty = DifficultyOptions.valueOf(fileReader.nextLine());
                 fileReader.close();
+
             }
         } catch (Exception e){
             System.out.println("invalid config file, using default options");
@@ -67,6 +71,14 @@ public class Options {
     public void setDifficulty(DifficultyOptions difficulty) {
         this.difficulty = difficulty;
         writeFile();
+    }
+
+    public boolean isSoundON() {
+        return soundON;
+    }
+
+    public void changeSoundOptions() {
+        soundON = !soundON;
     }
 
     /**

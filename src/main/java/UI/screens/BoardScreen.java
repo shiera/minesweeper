@@ -28,6 +28,8 @@ public class BoardScreen extends Screen{
     private int choosedTileX = -1;
     private int choosedTileY = -1;
 
+    private boolean alreadyWon = false;
+    private boolean buttonsClicked = false;
 
     // picture indicating which tile is choosed
     private Picture choosedTile = new Picture("choosedTile.png");
@@ -38,8 +40,7 @@ public class BoardScreen extends Screen{
     private UI.Button menuButton;
     private UI.Button newGameButton;
 
-    private boolean alreadyWon = false;
-    private boolean buttonsClicked = false;
+
 
     private Sound illegal;
     private Sound explosion;
@@ -66,7 +67,7 @@ public class BoardScreen extends Screen{
      * asks GameLogic if the game is still running
      * @return  true if a round of the game is running
      */
-    public boolean isGameRunning() {
+    private boolean isGameRunning() {
         return gameLogic.isPlaying();
     }
 
@@ -75,7 +76,7 @@ public class BoardScreen extends Screen{
      * @return true if round if won, false if round is lost or still running,
      *         use  isGameRunning() to see if game is still running
      */
-    public boolean isGameWon(){
+    private boolean isGameWon(){
         return gameLogic.hasWon();
     }
 
@@ -164,7 +165,8 @@ public class BoardScreen extends Screen{
      * @param legalMove
      * @param buttonClicked
      */
-    public void playSound(int mouseButton, boolean legalMove, boolean buttonClicked){
+
+    private void playSound(int mouseButton, boolean legalMove, boolean buttonClicked){
         if (frame.isSoundON()) {
             // if game is won or lost
             if (!alreadyWon && !isGameRunning()){
@@ -259,12 +261,12 @@ public class BoardScreen extends Screen{
         if (choosedTileY != -1){
             choosedTile.draw(g2, (choosedTileX*tileSize)+xBoardOrigoCord, (choosedTileY*tileSize)+yBoardOrigoCord);
         }
-        drawWinOrLoose(g2);
+        drawWinOrLost(g2);
 
     }
 
 
-    private void drawWinOrLoose(Graphics2D g2){
+    private void drawWinOrLost(Graphics2D g2){
         if (isGameWon() && !isGameRunning()) {
             win.draw(g2, (getScreenWidth()/2)-(win.getWidth()/2), (getScreenHeight()/3)-(win.getHeight()/2));
         }

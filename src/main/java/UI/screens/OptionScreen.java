@@ -22,7 +22,6 @@ public class OptionScreen extends Screen{
     private Button largeGame;
     private Button mediumGame;
     private Button smallGame;
-    private Button menuButton;
     private Button hugeGame;
     private Button easyGame;
     private Button hardGame;
@@ -32,7 +31,6 @@ public class OptionScreen extends Screen{
     Picture optionsLogo = new Picture("optionsLogo.png");
 
     private  ArrayList<Button> buttons;
-    private Button startButton;
 
     /**
      * Constructor that calls the default constructor of screen
@@ -82,12 +80,10 @@ public class OptionScreen extends Screen{
         for (Button button : buttons) {
             if (button.ifClicked(posX, posY)) buttonClicked = true;
         }
-        playSound(buttonClicked);
+        playButtonSound(buttonClicked);
     }
 
-    public void playSound(boolean buttonClicked){
-        if (buttonClicked && frame.isSoundON()) select.play();
-    }
+
 
     /**
      *  paints option screen
@@ -119,13 +115,13 @@ public class OptionScreen extends Screen{
 
         buttons = new ArrayList<Button>();
         buttons.add(soundButton);
-        menuButton = new Button( frame, "menu.png", 0, 0, new ButtonHandler() {
+        Button menuButton = new Button(frame, "menu.png", 0, 0, new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
                 frame.changeToMenu();
             }
         });
-        startButton = new Button(frame, "start.png", 64,0, new ButtonHandler() {
+        Button startButton = new Button(frame, "start.png", 64, 0, new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
                 frame.changeToGame();

@@ -75,10 +75,7 @@ public class Sound implements Runnable {
                     ex.printStackTrace();
                 }
             }
-        } catch (final  IOException ex) {
-            System.out.println("Exception in sound: "+ex.getClass()+" exception: "+ex.getMessage());
-            ex.printStackTrace();
-        } catch (UnsupportedAudioFileException  ex){
+        } catch (final  Exception ex) {
             System.out.println("Exception in sound: "+ex.getClass()+" exception: "+ex.getMessage());
             ex.printStackTrace();
         }

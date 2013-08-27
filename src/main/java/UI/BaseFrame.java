@@ -23,7 +23,6 @@ public class BaseFrame extends JFrame {
     private Screen help;
     private Screen optionsScreen;
     private final GameLogic logic;
-    private boolean soundON = true;
     private Options options;
 
 
@@ -66,14 +65,14 @@ public class BaseFrame extends JFrame {
     }
 
     public boolean isSoundON() {
-        return soundON;
+        return options.isSoundON();
     }
 
     /**
      * used to mute/ unmute the game
      */
     public void changeSoundOption() {
-        soundON = !soundON;
+        options.changeSoundOptions();
     }
 
     /**
