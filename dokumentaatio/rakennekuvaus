@@ -5,12 +5,73 @@ Board
  * Board myös hoitaa laudan pommien randomisointi, numeroiden asettelemisen ja pitää kirjaa käytettyjen lippujen määrästä
  * Tarkistaa myös onko lauta oikein merkattu
 
+GameLogic
+ * Hoitaa kaiken varsinaisen pelilogiikan
+ * Ainoa joka pääsee suoraan käsiksi Boardiin
+ * Kertoo Screeneille pelin tilan
+
+Options
+ * Lataa ja tallentaa boardin asetukset
+
+BoardSizeOptions
+ * Enumi jota Options käyttää avukseen laudan koon tallentamisessa
+
 BoardStatus
  * enumi joka sisältää boardStatuksessa käytetyt ruutujen tilavaihtoehdot
 
- GameLogic
- * hoitaa tämenhetkisen pelin pyörittämisen
- * koko peli, yksi kierros
+DifficultyOptions
+ * enumi jota Options käyttää avukseen pommien määrän tallentamiseen
 
- Main
- * käynnistää GameLogicin
+Main
+ * Luo BaseFramen
+
+Sounds
+ * Hoitaa äänten lataamisen ja niiden soittamisen uudessa treadissa
+
+Screen
+ * Abstrakti luokka jota kaikki muut Screenit extendaa
+ * extendaa itse jPanelia
+ * Hoitaa käytännössä kaikki käyttäjän ja pelin välisen kommunikaation
+
+BoardScreen
+ * Screeni joka on näkyvissä kun peliä pelataan
+ * Hoitaa gamelogicin ja pelin välisen kommunikaation
+
+HelpScreen
+ * Näyttää peliohjeet
+
+MenuScreen
+ * Screeni joka näkyy pelin käynnistyessä
+ * paikka josta navigoidaan kaikkialle muualle
+
+OptionScreen
+ * Screeni joka hoitaa uusien asetusten saamisen käyttäjältä
+ * Antaa uudet asetukset Optionsille joka tallentaa ne
+ * OptionsScreen ei kuitenkaan tunne Options-luokkaa ite vaan käyttää
+   BaseFramen siihen tarkoitettuja settereitä
+
+ButtonHandler
+ * Interface jonka tarkoitus on mahdollistaa button-olioiden käyttö eri
+   tilanteista ilman monta erillistä buttonluokkaa.
+ * Uusi buttonHandleri luodaan aina Buttonin constructorissa, ja annetaan
+   sen ainoalle metodille "onButtonClick(BaseFrame frame)" koodi joka halutaan
+   suorittaa kyseistä nappia painettaessa
+
+BaseFrame
+ * Extendaa JFramea
+ * Käynnistää ja pyörittää koko käyttöliittymän
+ * Pitää kirjaa muista isoista luokista (eli Screeneistä, Gamelogicista ja Optionista),
+   ja hoitaa suurimman osan niitten välisestä kommunikaatiosta
+ * Pitää myös huolta screenien välillä vaihtamisesta
+
+Button
+ * Hoitaa nappien painalluslogiikan
+ * Käyttää Picturea itsensä piirtämiseen
+
+Picture
+ * Hoitaa kaikkien kuvien (BufferedImage-olioita) lataamisen ja piirtämisen
+
+TileAppearance
+ * Enumi jonka mukaan eri tilet piirretään
+ * Pitää kirjaa kaikista enumien eri Pictureista
+ * randomoi mitä kaikista kuvista käytetään
