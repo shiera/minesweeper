@@ -2,5 +2,6 @@ minesweeper
 ===========
 
 minesweeper schoolproject
-load the zip file under releases to run.
-start the game  whit minesweeper1.0.sh/minesweeper1.0.bat
+
+Download the latest zip from the releases folder and extract it.
+Start the game with minesweeper1.0.bat on Windows, or minesweeper1.0.sh on Linux.

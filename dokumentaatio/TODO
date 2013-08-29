@@ -6,7 +6,10 @@ Highscore
 Customasetukset?
 Androidyhteensopivuus swingin sijaan?
 
-Tunnettu bugi
+Tunnetut bugit
 Äänet ei aina toimi niin kuin pitää, johtuu luultavasti javasta.
+New Game/ Check button ei piirry täysin oikeaan kohtaan...pitäisi piirtyä ruudun korkeus- x
+mutta paikka pysyy samana vakka x:ää muutetaan ???
+
 
 P.S. toivottavasti nää intelJ generoimat javadocit on nyt oikeessa muodossa/onnistui

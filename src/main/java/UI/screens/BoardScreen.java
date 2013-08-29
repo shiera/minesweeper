@@ -304,7 +304,7 @@ public class BoardScreen extends Screen{
     @Override
     protected void makeButtons(BaseFrame frame){
         super.makeButtons(frame);
-        checkButton = new UI.Button( frame,"checkBoard.png", getScreenWidth()/2-48, getScreenHeight()-75, new ButtonHandler() {
+        checkButton = new UI.Button( frame,"checkBoard.png", getScreenWidth()/2-48, (getScreenHeight()-100), new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
                 gameLogic.checkTheBoard();
@@ -316,7 +316,7 @@ public class BoardScreen extends Screen{
                  frame.changeToMenu();
             }
         });
-        newGameButton = new UI.Button( frame,"newGame.png",getScreenWidth()/2-48, getScreenHeight()-75, new ButtonHandler() {
+        newGameButton = new UI.Button( frame,"newGame.png",getScreenWidth()/2-48, (getScreenHeight()-100), new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
                 gameLogic.newGame();
