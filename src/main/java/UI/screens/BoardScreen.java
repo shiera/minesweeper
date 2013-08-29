@@ -137,7 +137,7 @@ public class BoardScreen extends Screen{
         // if buttons was clicked
         boolean buttonClicked = false;
         if ( gameLogic.flagsLeft() == 0 && isGameRunning()) {
-            if (checkButton.ifClicked(posX, posY)) buttonClicked = true;
+            checkButton.ifClicked(posX, posY);
         }
         else if ( !isGameRunning()){
             if (newGameButton.ifClicked(posX, posY)) buttonClicked = true;

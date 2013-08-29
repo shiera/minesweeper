@@ -26,7 +26,8 @@ public class BoardTest {
 
     @Before
     public void setup(){
-        board = new Board(TestUtils.testBoardSize, 3);
+          board = new Board(TestUtils.testBoardSize, 3);
+
 
     }
 
@@ -38,6 +39,7 @@ public class BoardTest {
         assertFalse(" board should not be clean after setup, check method setupBoard()", isBoardClean(board));
         board.clearBoard();
         assertTrue("cleaned board should be clean, check method clearBoard()", isBoardClean(board));
+
 
     }
 

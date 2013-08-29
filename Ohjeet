@@ -1,0 +1,17 @@
+
+Pelin käynnistysohjeet
+
+* Lataa ja pura zippi haluamaasi kansioon
+
+Linux
+ * Käynnistä kansiosta löytyvä minesweeper1.0.sh
+   - navigoi terminaalissa minesweeper-kansioon ja kirjoita ./minesweeper1.0.sh pelin pitäisi käynnistyä
+
+Windows
+ * Käynnistä kansiosta löytyvä minesweeper1.0.bat klikkaamalla sitä
+
+
+Pelaaminen
+ * Pelissä on peliohjeet
+  - löytyvät painamalla help-nappia menussa
+

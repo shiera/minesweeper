@@ -43,6 +43,7 @@ public class Board {
         this.bombAmountPercent = bombAmountPercentage;
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
+
         if ( bombAmountPercentage > 33){
             bombAmountPercentage = 33;
         }
@@ -50,6 +51,7 @@ public class Board {
         boardStatus = new BoardStatus[boardHeight][boardWidth];
         setupBoard();
         testingWhitGivenBoard = false;
+
 
     }
 
@@ -63,7 +65,9 @@ public class Board {
      * @param bombAmount  amount of bombs on the board
      */
     protected Board(int boardSize, int bombAmount){
-         this(boardSize, boardSize, (double)100*bombAmount/boardSize*boardSize);
+
+         this(boardSize, boardSize, (double)100*bombAmount/(boardSize*boardSize));
+
     }
 
     /**

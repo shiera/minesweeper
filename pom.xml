@@ -7,7 +7,7 @@
     <groupId>minesweeper</groupId>
     <artifactId>minesweeper</artifactId>
     <packaging>jar</packaging>
-    <version>0.4</version>
+    <version>1.0</version>
     <name>minesweeper</name>
 
     <dependencies>
