@@ -32,7 +32,7 @@ public class Board {
     private BoardStatus[][] boardStatus;
 
     // testatessa true
-    private boolean testingWhitGivenBoard;
+    private boolean testingWithGivenBoard;
 
     private int[][] testingBombs = null;
 
@@ -53,7 +53,7 @@ public class Board {
         boardData = new int[boardHeight][boardWidth];
         boardStatus = new BoardStatus[boardHeight][boardWidth];
         setupBoard();
-        testingWhitGivenBoard = false;
+        testingWithGivenBoard = false;
 
 
     }
@@ -74,14 +74,14 @@ public class Board {
     }
 
     /**
-     * constructor for test whit given board
+     * constructor for test with given board
      * @param boardSize  width and height of the board
      * @param bombAmount amount of bombs on the board
-     * @param bombs  board whit bombs for the testBoard
+     * @param bombs  board with bombs for the testBoard
      */
     protected Board(int boardSize, int bombAmount, int[][] bombs){
         this(boardSize, boardSize, bombAmount);
-        testingWhitGivenBoard = true;
+        testingWithGivenBoard = true;
         testingBombs = bombs;
         setupBoard();
     }
@@ -106,7 +106,7 @@ public class Board {
 
     /**
      * test uses
-     * @return the boardStatus in form of int[][] whit 0 for uncovered,
+     * @return the boardStatus in form of int[][] with 0 for uncovered,
      *          -1 for marked bomb and 1 for uncovered
      */
     protected BoardStatus[][] getBoardStatus() {
@@ -121,7 +121,7 @@ public class Board {
     }
 
     /**
-     * @return  the board in form of int[][] whit -1 for bomb and numbers 0-9 for bombs close
+     * @return  the board in form of int[][] with -1 for bomb and numbers 0-9 for bombs close
      */
     protected int[][] getBoardData() {
         return boardData;
@@ -214,7 +214,7 @@ public class Board {
         placeNumbers();
         coverBoard();
         // testin takia
-        if (testingWhitGivenBoard){
+        if (testingWithGivenBoard){
             setupBoard(testingBombs,getBombAmount());
         }
         markedSpacesCount = 0;
@@ -222,9 +222,9 @@ public class Board {
 
 
     /**
-     * setupBoard for tests whit given bombs
+     * setupBoard for tests with given bombs
      * will crash if bombs[][] are wrong size or bombAmount wrong
-     * @param bombs array bombs[][] whit given bombs for testing
+     * @param bombs array bombs[][] with given bombs for testing
      * @param bombAmount  amount of bombs in bombs[][]
      */
     protected void setupBoard(int[][] bombs, int bombAmount){

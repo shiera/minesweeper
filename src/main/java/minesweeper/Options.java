@@ -42,7 +42,7 @@ public class Options {
     }
 
     /**
-     * @return size setting enum. get width and height whit size.getWidth(), size.getHeight()
+     * @return size setting enum. get width and height with size.getWidth(), size.getHeight()
      */
     public BoardSizeOptions getSize() {
         return size;

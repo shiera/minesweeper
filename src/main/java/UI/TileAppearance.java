@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * enum whit all the possible tiles used in minesweeper
+ * enum with all the possible tiles used in minesweeper
  * can take 0 .. * picture names, and draws a random picture of right enum in expected tile
  * can draw multiple tile (images) on top on each other (for example FLAG enum draws a GRASS tile under the flag)
  */

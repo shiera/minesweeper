@@ -22,7 +22,7 @@ public class GameLogic {
     /**
      * Constructor used if width and height are the same
      * @param size width and height (tiles vertically and horizontally) of the board
-     * @param bombAmountPercent percent of tiles whit bombs at the board (board constructor maximum 33.33%)
+     * @param bombAmountPercent percent of tiles with bombs at the board (board constructor maximum 33.33%)
      */
     public GameLogic(int size, double bombAmountPercent) {
         this(size, size,bombAmountPercent );
@@ -32,7 +32,7 @@ public class GameLogic {
      * Constructor used if width and height of the board are different
      * @param boardWidth  width (tiles vertically) of the board
      * @param boardHeight  height (tiles horizontally) of the board
-     * @param bombAmountPercent percent of tiles whit bombs at the board (board constructor maximum 33.33%)
+     * @param bombAmountPercent percent of tiles with bombs at the board (board constructor maximum 33.33%)
      */
     public GameLogic( int boardWidth, int boardHeight,double bombAmountPercent) {
         board = new Board(boardWidth,boardHeight, bombAmountPercent);
@@ -51,7 +51,7 @@ public class GameLogic {
     }
 
     /**
-     * @return percent of tiles whit bombs at the board
+     * @return percent of tiles with bombs at the board
      */
     protected double getBombAmountPercent() {
         return board.getBombAmountPercent();
@@ -117,7 +117,7 @@ public class GameLogic {
     }
 
     /**
-     * change the percentage of tiles whit bombs in the board
+     * change the percentage of tiles with bombs in the board
      * @param bombAmountPercent new bombAmountPercent of the board
      */
     public void setBombAmountPercent(double bombAmountPercent) {

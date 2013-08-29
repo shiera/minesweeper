@@ -109,7 +109,7 @@ abstract public class Screen extends JPanel {
     }
 
     /**
-     * paints the whole screen whit TileAppearance.OUTSIDE
+     * paints the whole screen with TileAppearance.OUTSIDE
      * @param g2 Graphics2D
      */
     protected void paintBackground(Graphics2D g2){
