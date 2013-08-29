@@ -5,7 +5,7 @@ Pelin käynnistysohjeet
   zippi löytyy releases-kansiosta
 
 Linux
- * Käynnistä kansiosta löytyvä minesweeper1.0.sh
+ * Käynnistä kansiosta löytyvä minesweeper1.*.sh
    - navigoi terminaalissa minesweeper-kansioon ja kirjoita ./minesweeper1.0.sh pelin pitäisi käynnistyä
 
 Windows

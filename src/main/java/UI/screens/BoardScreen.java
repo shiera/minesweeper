@@ -40,6 +40,12 @@ public class BoardScreen extends Screen{
     private UI.Button menuButton;
     private UI.Button newGameButton;
 
+    /**
+     * modifier used for newGameButton and checkButton
+     * tells how far from the bottom edge these buttons cord should be
+     */
+    private int buttonPlaceMod = 80;
+
 
 
     private Sound illegal;
@@ -221,8 +227,8 @@ public class BoardScreen extends Screen{
     @Override
     public void open() {
         super.open();
-        newGameButton.changePos(getScreenWidth()/2-48, getScreenHeight()-64);
-        checkButton.changePos(getScreenWidth()/2-48, getScreenHeight()-64);
+        newGameButton.changePos(getScreenWidth()/2-48, getScreenHeight()-buttonPlaceMod);
+        checkButton.changePos(getScreenWidth()/2-48, getScreenHeight()-buttonPlaceMod);
         buttonsClicked = false;
 
     }
@@ -303,8 +309,9 @@ public class BoardScreen extends Screen{
      */
     @Override
     protected void makeButtons(BaseFrame frame){
+        // REMEMBER to change menuButton and checkbutton place in open() also
         super.makeButtons(frame);
-        checkButton = new UI.Button( frame,"checkBoard.png", getScreenWidth()/2-48, (getScreenHeight()-100), new ButtonHandler() {
+        checkButton = new UI.Button( frame,"checkBoard.png", getScreenWidth()/2-48, (getScreenHeight()-buttonPlaceMod), new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
                 gameLogic.checkTheBoard();
@@ -316,7 +323,7 @@ public class BoardScreen extends Screen{
                  frame.changeToMenu();
             }
         });
-        newGameButton = new UI.Button( frame,"newGame.png",getScreenWidth()/2-48, (getScreenHeight()-100), new ButtonHandler() {
+        newGameButton = new UI.Button( frame,"newGame.png",getScreenWidth()/2-48, (getScreenHeight()-buttonPlaceMod), new ButtonHandler() {
             @Override
             public void onButtonClick(BaseFrame frame) {
                 gameLogic.newGame();

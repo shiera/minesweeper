@@ -47,8 +47,8 @@ public class Board {
         this.boardWidth = boardWidth;
         this.boardHeight = boardHeight;
 
-        if ( bombAmountPercentage > 33){
-            this.bombAmountPercent = 33;
+        if ( bombAmountPercentage > 50){
+            this.bombAmountPercent = 50;
         }
         boardData = new int[boardHeight][boardWidth];
         boardStatus = new BoardStatus[boardHeight][boardWidth];
