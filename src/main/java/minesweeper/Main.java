@@ -12,6 +12,7 @@ import javax.sound.sampled.Clip;
 /**
  * minesweeper
  * @author shiera
+ * starts game
  */
 public class Main {
 

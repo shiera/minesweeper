@@ -2,6 +2,7 @@ package minesweeper;
 
 /**
  * Author: Shiera
+ * enum for difficulty options
  */
 public enum DifficultyOptions {
     EASY(12),

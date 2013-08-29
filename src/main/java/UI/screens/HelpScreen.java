@@ -16,6 +16,12 @@ public class HelpScreen extends Screen {
     private UI.Button menuButton;
     private Button startButton;
 
+    //  help pictures
+    private Picture leftButton = new Picture("leftMouse.png");
+    private Picture rightButton = new Picture("rightMouse.png");
+    private Picture numberHelp = new Picture("numberHelp.png");
+    private Picture exploded = new Picture("exploded.png");
+
 
     /**
      * Calls default constructor of screen
@@ -62,19 +68,22 @@ public class HelpScreen extends Screen {
         drawHelpPic(g2);
     }
 
+    /**
+     *  draws icons to helpScreen
+     * @param g2 Graphics 2D
+     */
     private void drawHelpPic(Graphics2D g2){
-        Picture leftButton = new Picture("leftMouse.png");
+
         leftButton.draw(g2, 320, 140);
-        Picture rightButton = new Picture("rightMouse.png");
         rightButton.draw(g2, 650, 200);
-        Picture numberHelp = new Picture("numberHelp.png");
         numberHelp.draw(g2, 483,80);
-        Picture exploded = new Picture("exploded.png");
         exploded.draw(g2, 400, 260);
-
-
     }
 
+    /**
+     * draws helptext
+     * @param g2 Graphics2D
+     */
     private void drawHelpText(Graphics2D g2){
         g2.setColor(Color.WHITE);
         g2.setFont(FONT);

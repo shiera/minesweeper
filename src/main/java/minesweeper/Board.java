@@ -15,6 +15,9 @@ import static UI.TileAppearance.*;
  */
 public class Board {
 
+    /**
+     * -1 stands for bomb in boardData
+     */
     public static final int BOMB = -1;
 
     private int boardWidth;
@@ -45,7 +48,7 @@ public class Board {
         this.boardHeight = boardHeight;
 
         if ( bombAmountPercentage > 33){
-            bombAmountPercentage = 33;
+            this.bombAmountPercent = 33;
         }
         boardData = new int[boardHeight][boardWidth];
         boardStatus = new BoardStatus[boardHeight][boardWidth];

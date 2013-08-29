@@ -165,7 +165,6 @@ public class BoardScreen extends Screen{
      * @param legalMove
      * @param buttonClicked
      */
-
     private void playSound(int mouseButton, boolean legalMove, boolean buttonClicked){
         if (frame.isSoundON()) {
             // if game is won or lost
@@ -265,7 +264,10 @@ public class BoardScreen extends Screen{
 
     }
 
-
+    /**
+     * draws win/ lost text if game is win/lost
+     * @param g2 Graphics 2D
+     */
     private void drawWinOrLost(Graphics2D g2){
         if (isGameWon() && !isGameRunning()) {
             win.draw(g2, (getScreenWidth()/2)-(win.getWidth()/2), (getScreenHeight()/3)-(win.getHeight()/2));

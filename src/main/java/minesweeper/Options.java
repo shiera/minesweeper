@@ -77,6 +77,9 @@ public class Options {
         return soundON;
     }
 
+    /**
+     * toggles sound from on to off
+     */
     public void changeSoundOptions() {
         soundON = !soundON;
     }
